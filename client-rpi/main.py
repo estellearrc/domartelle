@@ -1,4 +1,4 @@
-import os, time, logging, subprocess
+import os, logging, subprocess
 
 from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans README de Raph 
 
@@ -39,6 +39,11 @@ def instruction_received(type,pin,state):
 
     #nao_scripts.instruction(tts, rp, args)
 
+def send_data(type,data):
+    """Envoie les données sur le cloud Heroku"""
+    toSend = type +";"+ data
+    socketIO.emit('data_to_desktop',toSend)
+
 def main():
     
     socketIO.on('connect', connect)
@@ -48,6 +53,8 @@ def main():
     socketIO.on('disconnect', on_disconnect)
 
     socketIO.on('instruction_to_rpi', instruction_received)
+
+    socketIO.on('data_to_desktop', send_data)
 
     # Keeps the socket open indefinitely...
     socketIO.wait()
