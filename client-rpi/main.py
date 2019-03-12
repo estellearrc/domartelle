@@ -3,20 +3,8 @@ import os, time, logging, subprocess
 from socketIO_client_nexus import SocketIO
 from naoqi import ALProxy
 
-import nao_scripts
 
-#####
 
-IP = "192.168.43.116"
-PORT = 9559
-
-tts = ALProxy("ALTextToSpeech", IP , PORT)
-rp = ALProxy("ALRobotPosture", IP, PORT)
-
-tts.setLanguage("French")
-tts.setParameter("pitchShift", 1)
-
-#####
 
 logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
 socketIO = SocketIO('https://domartelle.herokuapp.com')
