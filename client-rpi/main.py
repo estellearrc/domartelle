@@ -1,9 +1,9 @@
 import os, time, logging, subprocess
 
-from socketIO_client_nexus import SocketIO
-from naoqi import ALProxy
+from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans README de Raph 
 
-
+import led
+import servos
 
 
 logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
@@ -29,20 +29,15 @@ def on_disconnect():
 def authenticated(*args):
     print('RPI is connected to the Server')
 
-def instruction_received(*args):
-    """
-    instr = "python " + args[0] + ".py"
-    process = subprocess.Popen(instr.split(), stdout=subprocess.PIPE) #add param cwd='/path/to/folder' for specified script execution localisation
-    output, error = process.communicate()
-    
-    
-    try:
-        print("instruction received : " + args[0])
-    except TypeError:
-        print("instruction received : " + args[0]["0"])
-        """
+def instruction_received(type,pin,state):
+    if type == "instruction_led":
+        led.instruction(pin,state)
+    elif type == "instruction_servos" :
+        servos.instruction(pin,state)
 
-    nao_scripts.instruction(tts, rp, args)
+
+
+    #nao_scripts.instruction(tts, rp, args)
 
 def main():
     
