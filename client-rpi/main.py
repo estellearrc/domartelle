@@ -1,10 +1,6 @@
-import os, time, logging, subprocess
+import os, logging, subprocess
 
 from socketIO_client_nexus import SocketIO
-from naoqi import ALProxy
-
-
-
 
 logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
 socketIO = SocketIO('https://domartelle.herokuapp.com')
@@ -44,6 +40,11 @@ def instruction_received(*args):
 
     nao_scripts.instruction(tts, rp, args)
 
+def send_data(type,data):
+    """Envoie les données sur le cloud Heroku"""
+    toSend = type +";"+ data
+    socketIO.emit('data_to_desktop',toSend)
+
 def main():
     
     socketIO.on('connect', connect)
@@ -53,6 +54,8 @@ def main():
     socketIO.on('disconnect', on_disconnect)
 
     socketIO.on('instruction_to_rpi', instruction_received)
+
+    socketIO.on('data_to_desktop', send_data)
 
     # Keeps the socket open indefinitely...
     socketIO.wait()
