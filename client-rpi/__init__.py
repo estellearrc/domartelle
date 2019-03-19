@@ -27,9 +27,9 @@ def authenticated(*args):
 
 def instruction_received(type,pin,state):
     if type == "instruction_led":
-        led.instruction(pin,state)
+        Led.instruction(pin,state)
     elif type == "instruction_servos" :
-        servos.instruction(pin,state)
+        Servomotor.instruction(pin,state)
 
 
 
