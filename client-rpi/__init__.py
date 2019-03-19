@@ -1,15 +1,11 @@
-import os, logging, subprocess
-
+import sys, os, logging, subprocess
+from actuators import Led, Servomotor
+from sensors import TemperatureSensor, HumiditySensor, LuminositySensor, MovementSensor
 from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans README de Raph 
-
-import led
-import servos
 
 
 logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
 socketIO = SocketIO('https://domartelle.herokuapp.com')
-
-#####
  
 
 def connect():

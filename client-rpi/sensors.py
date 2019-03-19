@@ -2,31 +2,42 @@
 import RPi.GPIO as GPIO
 
 class TemperatureSensor :
-    def __init__(self,pin):
+    def __init__(self,pin,stub):
         self.pin = pin
+        self.stub = stub
     
-    def RetrieveTemperature():
-
-    def CalculateTemperature(data):
+    def RetrieveTemperature(self):
+        a=1
+    
+    def CalculateTemperature(self,data):
+        a=1
 
 class HumiditySensor :
-    def __init__(self,pin):
+    def __init__(self,pin,stub):
         self.pin = pin
+        self.stub = stub
     
-    def RetrieveHumidity():
+    def RetrieveHumidity(self):
+        a=1
 
-    def CalculateHumidityRate(data):
+    def CalculateHumidityRate(self,data):
+        a=1
 
 class MovementSensor :
-    def __init__(self,pin):
+    def __init__(self,pin,stub):
         self.pin = pin
+        self.stub = stub
     
-    def RetrieveMovement():
+    def RetrieveMovement(self):
+        a=1
 
 class LuminositySensor :
-    def __init__(self,pin):
+    def __init__(self,pin,stub):
         self.pin = pin
+        self.stub = stub
     
-    def RetrieveLuminosity():
+    def RetrieveLuminosity(self):
+        a=1
 
-    def CalculateLuminosityRate(data):
+    def CalculateLuminosityRate(self,data):
+        a=1

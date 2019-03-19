@@ -6,7 +6,7 @@ class Led :
         self.pin = pin
         self.state = 0
 
-    def instruction(pin,state):
+    def instruction(self,pin,state):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(pin,GPIO.OUT)
         GPIO.output(pin,state)
@@ -16,7 +16,7 @@ class Servomotor :
         self.pin = pin
         self.state = 0
 
-    def instruction(pin,state):
+    def instruction(self,pin,state):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(pin,GPIO.OUT)
         pwm = GPIO.PWM(pin,50)
