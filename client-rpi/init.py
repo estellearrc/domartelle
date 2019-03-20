@@ -59,5 +59,5 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        print('Killed by userazeregjoizehvoijefoi')
+        print('Killed by user')
         sys.exit(0)
