@@ -27,17 +27,17 @@ def authenticated(*args):
 
 def instruction_received(type,pin,state):
     if type == "instruction_led":
-        if pin == 29
-        led1.instruction(pin,state)
-        elif pin == 33
-        led2.instruction(pin,state)
-        else 
-        led3.instruction(pin,state)
+        if pin == 29 :
+            led1.instruction(pin,state)
+        elif pin == 33 :
+            led2.instruction(pin,state)
+        else : 
+            led3.instruction(pin,state)
     elif type == "instruction_servos" :
-        if pin == 40
-        servo1.instruction(pin,state)
-        else 
-        servo2.instruction(pin,state)
+        if pin == 40 :
+            servo1.instruction(pin,state)
+        else : 
+            servo2.instruction(pin,state)
 
 
 
