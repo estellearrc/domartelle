@@ -16,18 +16,31 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: ""
+      switch1Value: 0,
+      switch2Value: 0,
+      switch3Value: 0
     };
   }
 
-  sendInstruction = message => {
+  changState(switchValue) {
+    if (switchValue === 0) {
+      switchValue = 1;
+    } else {
+      switchValue = 0;
+    }
+    sendInstruction()
+  }
+
+  sendInstruction = {type,pin,state} => {
     socket.emit("instruction_to_rpi", message);
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
+        <Switch value={switch1Value} onValueChange={this.changState} />
+        <Switch value={switch2Value} onValueChange={this.changState} />
+        <Switch value={switch3Value} onValueChange={this.changState} />
       </View>
     );
   }
