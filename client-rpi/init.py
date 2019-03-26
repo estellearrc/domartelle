@@ -27,9 +27,17 @@ def authenticated(*args):
 
 def instruction_received(type,pin,state):
     if type == "instruction_led":
-        Led.instruction(pin,state)
+        if pin == 29
+        led1.instruction(pin,state)
+        elif pin == 33
+        led2.instruction(pin,state)
+        else 
+        led3.instruction(pin,state)
     elif type == "instruction_servos" :
-        Servomotor.instruction(pin,state)
+        if pin == 40
+        servo1.instruction(pin,state)
+        else 
+        servo2.instruction(pin,state)
 
 
 
@@ -64,6 +72,11 @@ def main():
     m1 = MovementSensor(23,True)
     m1.RetrieveMovement()
 
+    led1 = Led(29)
+    led2 = Led(33)
+    led3 = Led(38)
+    servo1 = Servomotor(40)
+    servo2 = Servomotor(37)
 
 if __name__ == '__main__':
     try:
