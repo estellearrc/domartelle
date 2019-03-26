@@ -25,4 +25,4 @@ def display_data_10_days(type):
     """Affiche la tendance des données du type demandé sur 10 jours"""
 
 def save_data(type,data):
-    """Sauvegarde les données dans un fichier json"""
+    """Sauvegarde les données dans un fichier json """
