@@ -55,6 +55,16 @@ def main():
     # Keeps the socket open indefinitely...
     socketIO.wait()
 
+    t1 = TemperatureSensor(7,True)
+    t1.RetrieveTemperature()
+    h1 = HumiditySensor(15,True)
+    h1.RetrieveHumidity()
+    l1 = LuminositySensor(16, True)
+    l1.RetrieveLuminosity()
+    m1 = MovementSensor(23,True)
+    m1.RetrieveMovement()
+
+
 if __name__ == '__main__':
     try:
         main()
