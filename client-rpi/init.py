@@ -44,7 +44,7 @@ def instruction_received(type,pin,state):
     #nao_scripts.instruction(tts, rp, args)
 
 def send_data(type,data):
-    """Envoie les données sur le cloud Heroku"""
+    """Envoie les donnees sur le cloud Heroku"""
     toSend = type +";"+ data
     socketIO.emit('data_to_desktop',toSend)
 
