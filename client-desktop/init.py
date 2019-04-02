@@ -1,6 +1,6 @@
 from socketIO_client_nexus import SocketIO
 
-logging.getLogger('socketIO-client').setLevel(logging.DEBUG) #permet de débboguer les erreurs
+#logging.getLogger('socketIO-client').setLevel(logging.DEBUG) #permet de debboguer les erreurs
 socketIO = SocketIO("https://domartelle-server.herokuapp.com")
 
 def connect():
@@ -19,28 +19,7 @@ def on_disconnect():
 
 def authenticated(*args):
     print('computer is connected to the Server')
-
-def main():
-    
-    socketIO.on('connect', connect)
-
-    socketIO.on('reconnect', reconnect)
-
-    socketIO.on('disconnect', on_disconnect)
-
-    socketIO.on('data_to_desktop', data_received)
-
-    # Keeps the socket open indefinitely...
-    socketIO.wait()
-
-if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        print('Killed by user')
-        sys.exit(0)
-
-
+	
 def data_received(type,data):
     """Recoit les donnees provenant du cloud Heroku, les sauvegarde en local et les affiche"""
     #save_data(type,data)
@@ -65,3 +44,26 @@ def display_data_10_days(type):
 
 def save_data(type,data):
     """Sauvegarde les donnees dans un fichier json """
+
+def main():
+    
+    socketIO.on('connect', connect)
+
+    socketIO.on('reconnect', reconnect)
+
+    socketIO.on('disconnect', on_disconnect)
+
+    socketIO.on('data_to_desktop', data_received)
+
+    # Keeps the socket open indefinitely...
+    socketIO.wait()
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('Killed by user')
+        sys.exit(0)
+
+
+
