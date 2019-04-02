@@ -31,9 +31,9 @@ export default class App extends React.Component {
     sendInstruction();
   }
 
-  sendInstruction(type, pin, state) {
-    socket.emit("instruction_to_rpi", message);
-  }
+  sendInstruction = {type,pin,state} => {
+    socket.emit("instruction_to_rpi", type,pin,state);
+  };
 
   render() {
     return (
