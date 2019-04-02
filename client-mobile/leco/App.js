@@ -28,7 +28,7 @@ export default class App extends React.Component {
     } else {
       switchValue = 0;
     }
-    sendInstruction()
+    sendInstruction();
   }
 
   sendInstruction = {type,pin,state} => {
