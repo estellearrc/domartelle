@@ -5,7 +5,7 @@ from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans READ
 
 
 logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
-socketIO = SocketIO('https://domartelle.herokuapp.com')
+socketIO = SocketIO('https://domartelle-server.herokuapp.com')
  
 
 def connect():
@@ -26,6 +26,7 @@ def authenticated(*args):
     print('RPI is connected to the Server')
 
 def instruction_received(type,pin,state):
+    print("bres is my god")
     if type == "instruction_led":
         if pin == 29 :
             led1.instruction(pin,state)
