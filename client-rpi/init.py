@@ -26,7 +26,7 @@ def authenticated(*args):
     print('RPI is connected to the Server')
 
 def instruction_received(type,pin,state):
-    print("bres is my god")
+    print("bres is my new velvet flower")
     if type == "instruction_led":
         if pin == 29 :
             led1.instruction(pin,state)
@@ -46,8 +46,7 @@ def instruction_received(type,pin,state):
 
 def send_data(type,data):
     """Envoie les donnees sur le cloud Heroku"""
-    toSend = type +";"+ data
-    socketIO.emit('data_to_desktop',toSend)
+    socketIO.emit('data_to_desktop',type, data)
 
 def main():
     
@@ -59,19 +58,17 @@ def main():
 
     socketIO.on('instruction_to_rpi', instruction_received)
 
-    socketIO.on('data_to_desktop', send_data)
-
     # Keeps the socket open indefinitely...
     socketIO.wait()
 
     t1 = TemperatureSensor(7,True)
-    t1.RetrieveTemperature()
+    send_data('temperature',t1.RetrieveTemperature())
     h1 = HumiditySensor(15,True)
-    h1.RetrieveHumidity()
+    send_data('humidity',h1.RetrieveHumidity()) 
     l1 = LuminositySensor(16, True)
-    l1.RetrieveLuminosity()
+    send_data('luminosity',l1.RetrieveLuminosity())
     m1 = MovementSensor(23,True)
-    m1.RetrieveMovement()
+    send_data('movement',m1.RetrieveMovement())
 
     led1 = Led(29)
     led2 = Led(33)

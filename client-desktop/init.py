@@ -1,12 +1,51 @@
 from socketIO_client_nexus import SocketIO
 
-socket = SocketIO("https://domartelle-server.herokuapp.com", {})
+logging.getLogger('socketIO-client').setLevel(logging.DEBUG) #permet de débboguer les erreurs
+socketIO = SocketIO("https://domartelle-server.herokuapp.com")
 
-def receive_data(type,data):
+def connect():
+    print('connected to the server')
+    socketIO.emit('authentication', {'key': os.environ['SOCKET_KEY']})
+    socketIO.on('authenticated', authenticated)
+    socketIO.emit('computer Connected')
+
+def reconnect():
+    print('reconnected to the server')
+    socketIO.emit('computer Connected')
+
+def on_disconnect():
+    print('disconnected')
+    socketIO.emit('computer Disconnected')
+
+def authenticated(*args):
+    print('computer is connected to the Server')
+
+def main():
+    
+    socketIO.on('connect', connect)
+
+    socketIO.on('reconnect', reconnect)
+
+    socketIO.on('disconnect', on_disconnect)
+
+    socketIO.on('data_to_desktop', data_received)
+
+    # Keeps the socket open indefinitely...
+    socketIO.wait()
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('Killed by user')
+        sys.exit(0)
+
+
+def data_received(type,data):
     """Recoit les donnees provenant du cloud Heroku, les sauvegarde en local et les affiche"""
-    save_data(type,data)
+    #save_data(type,data)
     display_data(type,data)
-    display_data_10_days(type)
+    #display_data_10_days(type)
     
 def display_data(type,data):
     """Affiche les donnees unitaires"""
