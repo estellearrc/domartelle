@@ -6,7 +6,12 @@ from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans READ
 
 logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
 socketIO = SocketIO('https://domartelle-server.herokuapp.com')
- 
+
+led1 = Led(29)
+led2 = Led(33)
+led3 = Led(38)
+servo1 = Servomotor(40)
+servo2 = Servomotor(37)
 
 def connect():
     print('connected to the server')
@@ -73,11 +78,6 @@ def main():
     m1 = MovementSensor(23,True)
     m1.RetrieveMovement()
 
-    led1 = Led(29)
-    led2 = Led(33)
-    led3 = Led(38)
-    servo1 = Servomotor(40)
-    servo2 = Servomotor(37)
 
 if __name__ == '__main__':
     try:
