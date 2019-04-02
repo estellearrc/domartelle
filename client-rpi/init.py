@@ -54,6 +54,14 @@ def send_data(type,data):
     socketIO.emit('data_to_desktop',type, data)
 
 def main():
+    t1 = TemperatureSensor(7,True)
+    send_data('temperature',t1.RetrieveTemperature())
+    h1 = HumiditySensor(15,True)
+    send_data('humidity',h1.RetrieveHumidity()) 
+    l1 = LuminositySensor(16, True)
+    send_data('luminosity',l1.RetrieveLuminosity())
+    m1 = MovementSensor(23,True)
+    send_data('movement',m1.RetrieveMovement())
     
     socketIO.on('connect', connect)
 
@@ -66,14 +74,6 @@ def main():
     # Keeps the socket open indefinitely...
     socketIO.wait()
 
-    t1 = TemperatureSensor(7,True)
-    send_data('temperature',t1.RetrieveTemperature())
-    h1 = HumiditySensor(15,True)
-    send_data('humidity',h1.RetrieveHumidity()) 
-    l1 = LuminositySensor(16, True)
-    send_data('luminosity',l1.RetrieveLuminosity())
-    m1 = MovementSensor(23,True)
-    send_data('movement',m1.RetrieveMovement())
 
 
 if __name__ == '__main__':
