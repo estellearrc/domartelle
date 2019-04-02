@@ -10,7 +10,7 @@ YellowBox.ignoreWarnings([
 ]);
 //
 
-const socket = SocketIOClient("https://domartelle-server.herokuapp.com", {});
+const socket = SocketIOClient("https://remote-nao.herokuapp.com", {});
 
 export default class App extends React.Component {
   constructor(props) {
@@ -31,9 +31,9 @@ export default class App extends React.Component {
     sendInstruction();
   }
 
-  sendInstruction = {type,pin,state} => {
-    socket.emit("instruction_to_rpi",type,pin,state);
-  };
+  sendInstruction(type, pin, state) {
+    socket.emit("instruction_to_rpi", type, pin, state);
+  }
 
   render() {
     return (
