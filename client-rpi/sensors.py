@@ -22,7 +22,7 @@ class HumiditySensor :
         self.stub = stub
     
     def RetrieveHumidity(self):
-        a=1
+        return 1
 
     def CalculateHumidityRate(self,data):
         if self.stub:

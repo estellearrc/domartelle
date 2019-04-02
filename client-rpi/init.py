@@ -5,7 +5,7 @@ from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans READ
 
 
 logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
-socketIO = SocketIO('https://domartelle.herokuapp.com')
+socketIO = SocketIO('https://domartelle-server.herokuapp.com')
  
 
 def connect():
@@ -26,25 +26,26 @@ def authenticated(*args):
     print('RPI is connected to the Server')
 
 def instruction_received(type,pin,state):
+    print("bres is my god")
     if type == "instruction_led":
-        if pin == 29
-        led1.instruction(pin,state)
-        elif pin == 33
-        led2.instruction(pin,state)
-        else 
-        led3.instruction(pin,state)
+        if pin == 29 :
+            led1.instruction(pin,state)
+        elif pin == 33 :
+            led2.instruction(pin,state)
+        else : 
+            led3.instruction(pin,state)
     elif type == "instruction_servos" :
-        if pin == 40
-        servo1.instruction(pin,state)
-        else 
-        servo2.instruction(pin,state)
+        if pin == 40 :
+            servo1.instruction(pin,state)
+        else : 
+            servo2.instruction(pin,state)
 
 
 
     #nao_scripts.instruction(tts, rp, args)
 
 def send_data(type,data):
-    """Envoie les données sur le cloud Heroku"""
+    """Envoie les donnees sur le cloud Heroku"""
     toSend = type +";"+ data
     socketIO.emit('data_to_desktop',toSend)
 
@@ -62,6 +63,15 @@ def main():
 
     # Keeps the socket open indefinitely...
     socketIO.wait()
+
+    t1 = TemperatureSensor(7,True)
+    t1.RetrieveTemperature()
+    h1 = HumiditySensor(15,True)
+    h1.RetrieveHumidity()
+    l1 = LuminositySensor(16, True)
+    l1.RetrieveLuminosity()
+    m1 = MovementSensor(23,True)
+    m1.RetrieveMovement()
 
     led1 = Led(29)
     led2 = Led(33)

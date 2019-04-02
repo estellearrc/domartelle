@@ -6,4 +6,4 @@ pip install socketIO-client-nexus==0.7.6
 
 Then simply run this script from Python2 :
 
-python main.py
+python init.py
