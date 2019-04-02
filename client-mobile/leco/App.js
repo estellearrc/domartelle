@@ -10,7 +10,7 @@ YellowBox.ignoreWarnings([
 ]);
 //
 
-const socket = SocketIOClient("https://domartelle-server.herokuapp.com", {});
+const socket = SocketIOClient("https://remote-nao.herokuapp.com", {});
 
 export default class App extends React.Component {
   constructor(props) {
