@@ -1,6 +1,6 @@
 import React from "react";
 import SocketIOClient from "socket.io-client";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, Switch, Slider } from "react-native";
 
 //To dismiss the Websocket connection warning, apparently useless (cf. https://stackoverflow.com/questions/53638667/unrecognized-websocket-connection-options-agent-permessagedeflate-pfx)
 console.ignoredYellowBox = ["Remote debugger"];
@@ -22,13 +22,13 @@ export default class App extends React.Component {
     };
   }
 
-  changState(switchValue) {
+  changStateLed(switchValue) {
     if (switchValue === 0) {
       switchValue = 1;
     } else {
       switchValue = 0;
     }
-    sendInstruction();
+    sendInstruction("instruction_led");
   }
 
   sendInstruction(type, pin, state) {
@@ -37,10 +37,30 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Switch value={switch1Value} onValueChange={this.changState} />
-        <Switch value={switch2Value} onValueChange={this.changState} />
-        <Switch value={switch3Value} onValueChange={this.changState} />
+      <View style={{ flxDirection: "column", flex: 1 }}>
+        <View style={styles.container}>
+          <Switch
+            style={styles.switch}
+            value={this.state.switch1Value}
+            onValueChange={this.changStateLed}
+          />
+          <Switch
+            style={styles.switch}
+            value={this.state.switch2Value}
+            onValueChange={this.changStateLed}
+          />
+          <Switch
+            style={styles.switch}
+            value={this.state.switch3Value}
+            onValueChange={this.changState}
+          />
+        </View>
+        <View style={styles.containerJauge}>
+          <Slider
+            value={this.state.degree}
+            onValueChange={value => this.setState({ value })}
+          />
+        </View>
       </View>
     );
   }
@@ -49,8 +69,17 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column",
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    marginTop: 50
+  },
+  switch: {
+    width: 80,
+    height: 50,
+    marginTop: 30
+  },
+  containerJauge: {
+    flex: 1,
+    orientation: "vertical"
   }
 });
