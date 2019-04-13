@@ -1,34 +1,31 @@
 #!/usr/bin/python
 import RPi.GPIO as GPIO
 import random
+from Adafruit_Python_DHT-master import Adafruit_DHT
 
 class TemperatureSensor :
     def __init__(self,pin,stub):
         self.pin = pin
         self.stub = stub
     
-    def RetrieveTemperature(self):
-        return 1
-    
-    def CalculateTemperature(self,data):
+    def RetrieveTemperature(self,data):
         if self.stub:
             return random.randint(0,30)
         else:
-            return 1
+            temperature = Adafruit_DHT.read_retry(sensor, pin)[1]
+            return temperature
 
 class HumiditySensor :
     def __init__(self,pin,stub):
         self.pin = pin
         self.stub = stub
-    
-    def RetrieveHumidity(self):
-        return 1
 
-    def CalculateHumidityRate(self,data):
+    def RetrieveHumidity(self,data):
         if self.stub:
             return random.randint(0,100)
         else:
-            return 1
+            humidity = Adafruit_DHT.read_retry(sensor, pin)[0]
+            return humidity
 
 class MovementSensor :
     def __init__(self,pin,stub):
@@ -46,10 +43,10 @@ class LuminositySensor :
         self.pin = pin
         self.stub = stub
     
-    def RetrieveLuminosity(self):
+    def CalculateLuminosityRate(self):
         return 1
 
-    def CalculateLuminosityRate(self,data):
+    def RetrieveLuminosity(self,data):
         if self.stub:
             return random.randint(0,100)
         else:
