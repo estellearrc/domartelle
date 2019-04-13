@@ -54,9 +54,9 @@ def send_data(type,data):
     socketIO.emit('data_to_desktop',type, data)
 
 def main():
-    t1 = TemperatureSensor(7,True)
+    t1 = TemperatureSensor(4,False)
     send_data('temperature',t1.RetrieveTemperature())
-    h1 = HumiditySensor(15,True)
+    h1 = HumiditySensor(4,False)
     send_data('humidity',h1.RetrieveHumidity()) 
     l1 = LuminositySensor(16, True)
     send_data('luminosity',l1.RetrieveLuminosity())

@@ -1,31 +1,41 @@
 #!/usr/bin/python
 import RPi.GPIO as GPIO
 import random
-from Adafruit_Python_DHT-master import Adafruit_DHT
+from Adafruit_Python_DHT import Adafruit_DHT
 
 class TemperatureSensor :
     def __init__(self,pin,stub):
         self.pin = pin
         self.stub = stub
     
-    def RetrieveTemperature(self,data):
+    def RetrieveTemperature(self):
         if self.stub:
             return random.randint(0,30)
         else:
-            temperature = Adafruit_DHT.read_retry(sensor, pin)[1]
-            return temperature
+            sensor = Adafruit_DHT.DHT11
+            temperature = Adafruit_DHT.read_retry(sensor, self.pin)[1]
+            if temperature is not None:
+                return temperature
+            else:
+                print('Failed to get reading temperature. Check GPIO pins and try again!')
+                sys.exit(1)
 
 class HumiditySensor :
     def __init__(self,pin,stub):
         self.pin = pin
         self.stub = stub
 
-    def RetrieveHumidity(self,data):
+    def RetrieveHumidity(self):
         if self.stub:
             return random.randint(0,100)
         else:
-            humidity = Adafruit_DHT.read_retry(sensor, pin)[0]
-            return humidity
+            sensor = Adafruit_DHT.DHT11
+            humidity = Adafruit_DHT.read_retry(sensor, self.pin)[0]
+            if humidity is not None:
+                return humidity
+            else:
+                print('Failed to get reading humidity. Check GPIO pins and try again!')
+                sys.exit(1)
 
 class MovementSensor :
     def __init__(self,pin,stub):
