@@ -2,7 +2,7 @@
 import RPi.GPIO as GPIO
 import random
 import sys
-from Adafruit_Python_DHT import Adafruit_DHT
+import Adafruit_DHT
 
 class TemperatureSensor :
     def __init__(self,pin,stub):
@@ -57,7 +57,7 @@ class LuminositySensor :
     def CalculateLuminosityRate(self):
         return 1
 
-    def RetrieveLuminosity(self,data):
+    def RetrieveLuminosity(self):
         if self.stub:
             return random.randint(0,100)
         else:

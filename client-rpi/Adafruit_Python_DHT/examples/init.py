@@ -4,7 +4,6 @@ from sensors import TemperatureSensor, HumiditySensor, LuminositySensor, Movemen
 from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans README de Raph 
 
 
-logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
 socketIO = SocketIO('https://domartelle-server.herokuapp.com')
 
 led1 = Led(29)
