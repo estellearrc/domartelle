@@ -107,7 +107,7 @@ class LuminositySensor :
             GPIO.setup(SPIMISO, GPIO.IN)
             GPIO.setup(SPICLK, GPIO.OUT)
             GPIO.setup(SPICS, GPIO.OUT)
-            #definition du ADC utilise (broche du MCP3008). Cette valeur peut aller de 0 à 7.
+            #definition du ADC utilise (broche du MCP3008). Cette valeur peut aller de 0 a 7.
             adcnum = 0
             # Lecture de la valeur brute du capteur
             read_adc0 = readadc(adcnum, SPICLK, SPIMOSI, SPIMISO, SPICS)
