@@ -97,7 +97,7 @@ class LuminositySensor :
                 adcout /= 2    # first bit is 'null' so drop it
                 return adcout
 
-            # ces numeros de pins GPIO doivent etre modifies pour correspondre aux broches utilisées si vous avez utilisé un autre câblage que celui du tutoriel.
+            #numeros des pins utiles
             SPICLK = 23
             SPIMISO = 21
             SPIMOSI = 19
