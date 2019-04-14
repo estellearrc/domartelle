@@ -55,7 +55,7 @@ def send_data(type,data):
 def main():
     t1 = TemperatureSensor(4,False)
     h1 = HumiditySensor(4,False)
-    l1 = LuminositySensor(16, True)
+    l1 = LuminositySensor(False)
     m1 = MovementSensor(11,False)
     while True:
         send_data('temperature',t1.RetrieveTemperature())
