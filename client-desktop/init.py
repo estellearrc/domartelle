@@ -33,7 +33,10 @@ def display_data(type,data):
     elif type == "luminosity":
         print("Le taux de luminosite dans la maison est de "+ str(data) +" %")
     elif type == "movement":
-        print("Une personne est presente dans la maison...")
+        if data == 1:
+            print("Une personne est presente dans la maison...")
+        else:
+            print("La maison est vide")
     elif type == "humidity":
         print("Le taux d'humidite dans la maison est de "+ str(data) +" %")
     else:
@@ -43,7 +46,7 @@ def display_data_10_days(type):
     """Affiche la tendance des donnees du type demande sur 10 jours"""
 
 def save_data(type,data):
-    """Sauvegarde les donnees dans un fichier json """
+    """Sauvegarde les donnees dans un fichier csv """
 
 def main():
     
