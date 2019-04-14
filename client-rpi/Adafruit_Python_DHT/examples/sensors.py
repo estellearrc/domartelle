@@ -47,7 +47,11 @@ class MovementSensor :
         if self.stub:
             return random.randint(0,1)
         else:
-            return 1
+            GPIO.setwarnings(False)
+            GPIO.setmode(GPIO.BOARD)
+            GPIO.setup(self.pin, GPIO.IN)  
+            motion = GPIO.input(self.pin)
+            return motion
 
 class LuminositySensor :
     def __init__(self,pin,stub):

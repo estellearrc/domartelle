@@ -59,7 +59,7 @@ def main():
     send_data('humidity',h1.RetrieveHumidity()) 
     l1 = LuminositySensor(16, True)
     send_data('luminosity',l1.RetrieveLuminosity())
-    m1 = MovementSensor(23,True)
+    m1 = MovementSensor(11,False)
     send_data('movement',m1.RetrieveMovement())
     
     socketIO.on('connect', connect)
