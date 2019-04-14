@@ -112,7 +112,8 @@ class LuminositySensor :
             # Lecture de la valeur brute du capteur
             read_adc0 = readadc(adcnum, SPICLK, SPIMOSI, SPIMISO, SPICS)
             # conversion de la valeur brute lue en milivolts = ADC * ( 3300 / 1024 )
-            #millivolts = read_adc0 * ( 3300.0 / 1024.0)
+            millivolts = read_adc0 * ( 3300.0 / 1024.0)
+            print("La tension en millivots est :"+millivolts)
             return read_adc0
 
     
