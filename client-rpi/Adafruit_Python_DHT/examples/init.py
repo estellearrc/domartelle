@@ -1,4 +1,4 @@
-import sys, os, logging, subprocess
+import sys, os, logging, subprocess, time
 from actuators import Led, Servomotor
 from sensors import TemperatureSensor, HumiditySensor, LuminositySensor, MovementSensor
 from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans README de Raph 
@@ -54,13 +54,15 @@ def send_data(type,data):
 
 def main():
     t1 = TemperatureSensor(4,False)
-    send_data('temperature',t1.RetrieveTemperature())
     h1 = HumiditySensor(4,False)
-    send_data('humidity',h1.RetrieveHumidity()) 
     l1 = LuminositySensor(16, True)
-    send_data('luminosity',l1.RetrieveLuminosity())
     m1 = MovementSensor(11,False)
-    send_data('movement',m1.RetrieveMovement())
+    while True:
+        send_data('temperature',t1.RetrieveTemperature())
+        send_data('humidity',h1.RetrieveHumidity()) 
+        send_data('luminosity',l1.RetrieveLuminosity())
+        send_data('movement',m1.RetrieveMovement())
+        time.sleep(10)
     
     socketIO.on('connect', connect)
 
