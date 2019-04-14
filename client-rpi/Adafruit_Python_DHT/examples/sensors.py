@@ -64,7 +64,7 @@ class LuminositySensor :
         if self.stub:
             return random.randint(0,100)
         else:
-            GPIO.setmode(GPIO.BOARD)
+            GPIO.setmode(GPIO.BCM)
             GPIO.setwarnings(False)
 
             #fonction lisant les donnees SPI de la puce MCP3008, parmi 8 entrees, de 0 a 7
