@@ -1,8 +1,8 @@
 #!/usr/bin/python
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import random
 import sys
-import Adafruit_DHT
+#import Adafruit_DHT
 
 class TemperatureSensor :
     number = 0

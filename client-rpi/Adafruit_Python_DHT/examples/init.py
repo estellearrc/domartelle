@@ -1,4 +1,5 @@
 import sys, os, logging, subprocess, time
+import json
 from actuators import Led, Servomotor
 from sensors import TemperatureSensor, HumiditySensor, LuminositySensor, MotionSensor
 from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans README de Raph 
@@ -6,11 +7,19 @@ from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans READ
 
 socketIO = SocketIO('https://domartelle-server.herokuapp.com')
 
-led1 = Led(29)
-led2 = Led(33)
-led3 = Led(38)
-servo1 = Servomotor(40)
-servo2 = Servomotor(37)
+actuators = []
+sensors = []
+
+# led1 = Led(29,"living room",1)
+# actuators.append(led1)
+# led2 = Led(33, "kitchen",0)
+# actuators.append(led2)
+# led3 = Led(38, "entrance",1)
+# actuators.append(led3)
+# servo1 = Servomotor(40, "entrance",0)
+# actuators.append(servo1)
+# servo2 = Servomotor(37, "living room",0)
+# actuators.append(servo2)
 
 def connect():
     print('connected to the server')
@@ -28,6 +37,55 @@ def on_disconnect():
 
 def authenticated(*args):
     print('RPI is connected to the Server')
+
+def objToJSON():
+    with open('config.json','w') as f:
+        for actuator in actuators:
+            json.dump(actuator, f, default=lambda o: o.__dict__, sort_keys=True)
+            f.write('\n')
+        for sensor in sensors:
+            json.dump(sensor, f, default=lambda o: o.__dict__, sort_keys=True)
+            f.write('\n')
+        f.close()
+
+def JSONToObj():
+    sensors = []
+    actuators = []
+    with open('config.json', 'r') as f:
+        for line in f:
+            obj = json.loads(line)
+            if(obj['type'] == "led"):
+                pin = obj['pin']
+                room = obj["room"]
+                state = obj["state"]
+                actuators.append(Led(pin,room,state))
+            elif(obj["type"] == "servo"):
+                pin = obj["pin"]
+                room = obj["room"]
+                state = obj["state"]
+                actuators.append(Servomotor(pin,room,state))
+            elif(obj["type"] == "temperature"):
+                pin = obj["pin"]
+                room = obj["room"]
+                stub = obj["stub"]
+                sensors.append(TemperatureSensor(pin,stub,room))
+            elif(obj["type"] == "humidity"):
+                pin = obj["pin"]
+                room = obj["room"]
+                stub = obj["stub"]
+                sensors.append(HumiditySensor(pin,stub,room))
+            elif(obj["type"] == "luminosity"):
+                room = obj["room"]
+                stub = obj["stub"]
+                sensors.append(LuminositySensor(stub,room))
+            elif(obj["type"] == "motion"):
+                pin = obj["pin"]
+                room = obj["room"]
+                stub = obj["stub"]
+                sensors.append(MotionSensor(pin,stub,room))
+            else:
+                print("Unknown type object")
+        f.close()
 
 def instruction_received(type,pin,state):
     if type == "instruction_led":
@@ -53,16 +111,25 @@ def send_data(type,data):
 
 
 def main():
-    t1 = TemperatureSensor(4,False)
-    h1 = HumiditySensor(4,False)
-    l1 = LuminositySensor(False)
-    m1 = MotionSensor(11,False)
-    while True:
-        send_data('temperature',t1.RetrieveTemperature())
-        send_data('humidity',h1.RetrieveHumidity()) 
-        send_data('luminosity',l1.RetrieveLuminosity())
-        send_data('motion',m1.RetrieveMovement())
-        time.sleep(10)
+    # t1 = TemperatureSensor(4,False,"living room")
+    # h1 = HumiditySensor(4,False,"bathroom")
+    # l1 = LuminositySensor(False,"bedroom")
+    # m1 = MotionSensor(11,False,"study")
+    # sensors.append(t1)
+    # sensors.append(h1)
+    # sensors.append(l1)
+    # sensors.append(m1)
+
+    # objToJSON()
+
+    JSONToObj()
+
+    # while True:
+    #     send_data('temperature',t1.RetrieveTemperature())
+    #     send_data('humidity',h1.RetrieveHumidity()) 
+    #     send_data('luminosity',l1.RetrieveLuminosity())
+    #     send_data('motion',m1.RetrieveMovement())
+    #     time.sleep(10)
     
     socketIO.on('connect', connect)
 
