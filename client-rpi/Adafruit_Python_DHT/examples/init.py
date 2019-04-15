@@ -1,7 +1,7 @@
 import sys, os, logging, subprocess, time
-import json
-from actuators import Led, Servomotor
-from sensors import TemperatureSensor, HumiditySensor, LuminositySensor, MotionSensor
+import json, csv
+from actuators import Led, Servomotor, Actuator
+from sensors import Sensor, TemperatureSensor, HumiditySensor, LuminositySensor, MotionSensor
 from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans README de Raph 
 
 
@@ -102,12 +102,32 @@ def instruction_received(type,pin,state):
             servo2.instruction(pin,state)
 
 
-
-    #nao_scripts.instruction(tts, rp, args)
-
-def send_data(type,data):
+def send_data(type,room,id,value):
     """Envoie les donnees sur le cloud Heroku"""
-    socketIO.emit('data_to_desktop',type, data)
+    socketIO.emit('data_to_desktop',type, room, id, value)
+
+def write_get():
+    with open('get.csv','w') as f:
+        getWriter = csv.writer(f,delimiter=',') #quotechar='"', quoting=csv.QUOTE_MINIMAL
+        for actuator in actuators:
+            getWriter.writerow([actuator.type,actuator.room,actuator.id,actuator.value])
+        for sensor in sensors:
+            getWriter.writerow([sensor.type,sensor.room,sensor.id,sensor.value])
+        f.close()
+
+def read_get():
+    with open('get.csv') as csv_file:
+        delimiter=','
+        csv_reader = csv.reader(csv_file, delimiter = delimiter)
+        for row in csv_reader:
+            tab = row.split(delimiter)
+            type = tab[0]
+            room = tab[1]
+            id = tab[2]
+            value = tab[3]
+            send_data(type,room,id,value)
+        csv_file.close()
+
 
 
 def main():
@@ -123,11 +143,13 @@ def main():
     # objToJSON()
 
     JSONToObj()
-
-    for sensor in sensors:
-        while True:
-            send_data(sensor.type,sensor.RetrieveValue())
-            time.sleep(10)
+    while True:
+        for sensor in sensors:
+            sensor.value = sensor.RetrieveValue()
+            #send_data(sensor.type,sensor.room,sensor.id,sensor.value)
+        write_get()
+        read_get()
+        time.sleep(30)
     
     socketIO.on('connect', connect)
 
