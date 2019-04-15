@@ -2,15 +2,15 @@
 import RPi.GPIO as GPIO
 
 class Led :
-    number = 0
-    def __init__(self,pin,room,id,state):
+    id = 0
+    def __init__(self,pin,room,number,state):
         self.pin = pin
         self.type="led"
         self.room=room
-        self.id= id
+        self.number= number
         self.state = state
-        Led.number +=1
-        self.number = Led.number
+        Led.id +=1
+        self.id = Led.id
 
 
     def instruction(self,pin,state):
@@ -19,15 +19,15 @@ class Led :
         GPIO.output(pin,state)
 
 class Servomotor :
-    number = 0
-    def __init__(self,pin,room,id,state):
+    id = 0
+    def __init__(self,pin,room,number,state):
         self.pin = pin
         self.type="servo"
         self.room=room
-        self.id= id
+        self.number= number
         self.state = state
-        Servomotor.number +=1
-        self.number = Servomotor.number
+        Servomotor.id +=1
+        self.id = Servomotor.id
 
     def instruction(self,pin,state):
         GPIO.setmode(GPIO.BOARD)
