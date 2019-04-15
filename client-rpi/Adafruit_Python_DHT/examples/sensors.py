@@ -5,66 +5,94 @@ import sys
 import Adafruit_DHT
 
 class TemperatureSensor :
-    def __init__(self,pin,stub):
+    number = 0
+    def __init__(self,pin,stub, room):
+        TemperatureSensor.number += 1
+        self.type = "temperature"
+        self.number = TemperatureSensor.number
         self.pin = pin
+        self.room = room
         self.stub = stub
+        self.value = -1
     
     def RetrieveTemperature(self):
         if self.stub:
-            return random.randint(0,30)
+            self.value = random.randint(0,30)
+            return self.value
         else:
             sensor = Adafruit_DHT.DHT11
             temperature = Adafruit_DHT.read_retry(sensor, self.pin)[1]
             if temperature is not None:
-                return temperature
+                self.value = temperature
+                return self.value
             else:
                 print('Failed to get reading temperature. Check GPIO pins and try again!')
                 sys.exit(1)
 
 class HumiditySensor :
-    def __init__(self,pin,stub):
+    number = 0
+    def __init__(self,pin,stub,room):
+        HumiditySensor.number += 1
+        self.type = "humidity"
+        self.number = HumiditySensor.number
         self.pin = pin
         self.stub = stub
+        self.room = room
+        self.value = -1
 
     def RetrieveHumidity(self):
         if self.stub:
-            return random.randint(0,100)
+            self.value = random.randint(0,100)
+            return self.value
         else:
             sensor = Adafruit_DHT.DHT11
             humidity = Adafruit_DHT.read_retry(sensor, self.pin)[0]
             if humidity is not None:
-                return humidity
+                self.value = humidity
+                return self.value
             else:
                 print('Failed to get reading humidity. Check GPIO pins and try again!')
                 sys.exit(1)
 
-class MovementSensor :
-    def __init__(self,pin,stub):
+class MotionSensor :
+    number = 0
+    def __init__(self,pin,stub,room):
+        MotionSensor.number += 1
+        self.type = "motion"
+        self.number = MotionSensor.number
         self.pin = pin
         self.stub = stub
+        self.room = room
+        self.value = -1
     
     def RetrieveMovement(self):
         if self.stub:
-            return random.randint(0,1)
+            self.value = random.randint(0,1)
+            return self.value
         else:
             GPIO.setwarnings(False)
             GPIO.setmode(GPIO.BOARD)
             GPIO.setup(self.pin, GPIO.IN)  
             motion = GPIO.input(self.pin)
-            return motion
+            self.value = motion
+            return self.value
 
 class LuminositySensor :
-    def __init__(self,stub):
+    number = 0
+    def __init__(self,stub, room):
+        LuminositySensor.number += 1
+        self.type = "luminosity"
+        self.number = LuminositySensor.number
         self.stub = stub
-    
-    def CalculateLuminosityRate(self):
-        return 1
+        self.room = room
+        self.value = -1
 
     def RetrieveLuminosity(self):
         if self.stub:
-            return random.randint(0,100)
+            self.value = random.randint(0,100)
+            return self.value
         else:
-            GPIO.setmode(GPIO.BCM)
+            GPIO.setmode(GPIO.BOARD)
             GPIO.setwarnings(False)
 
             #fonction lisant les donnees SPI de la puce MCP3008, parmi 8 entrees, de 0 a 7

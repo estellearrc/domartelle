@@ -1,6 +1,6 @@
 import sys, os, logging, subprocess, time
 from actuators import Led, Servomotor
-from sensors import TemperatureSensor, HumiditySensor, LuminositySensor, MovementSensor
+from sensors import TemperatureSensor, HumiditySensor, LuminositySensor, MotionSensor
 from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans README de Raph 
 
 
@@ -30,7 +30,6 @@ def authenticated(*args):
     print('RPI is connected to the Server')
 
 def instruction_received(type,pin,state):
-    print("bres is my new velvet flower")
     if type == "instruction_led":
         if pin == 29 :
             led1.instruction(pin,state)
@@ -57,12 +56,12 @@ def main():
     t1 = TemperatureSensor(4,False)
     h1 = HumiditySensor(4,False)
     l1 = LuminositySensor(False)
-    m1 = MovementSensor(11,False)
+    m1 = MotionSensor(11,False)
     while True:
         send_data('temperature',t1.RetrieveTemperature())
         send_data('humidity',h1.RetrieveHumidity()) 
         send_data('luminosity',l1.RetrieveLuminosity())
-        send_data('movement',m1.RetrieveMovement())
+        send_data('motion',m1.RetrieveMovement())
         time.sleep(10)
     
     socketIO.on('connect', connect)
