@@ -73,9 +73,8 @@ class MotionSensor(Sensor) :
             return self.value
 
 class LuminositySensor(Sensor) :
-    def __init__(self,pin,stub,room):
+    def __init__(self,stub,room):
         self.type = "luminosity"
-        self.pin = pin #24 ou 26
         Sensor.__init__(self,stub,room)
 
     def RetrieveValue(self):

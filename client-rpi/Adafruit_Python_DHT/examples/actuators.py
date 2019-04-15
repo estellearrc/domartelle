@@ -2,22 +2,22 @@
 # import RPi.GPIO as GPIO
 
 
-class Actuators:
+class Actuator:
+    id = 0
     def _init_(self, pin, room, state):
-         self.pin = pin
-        self.room=room
+        Actuator.id += 1
+        self.id = Actuator.id
+        self.pin = pin
+        self.room = room
         self.state = state
         
 
 
 
-class Led(Actuators) :
-    id = 0
+class Led(Actuator) :
     def __init__(self,pin,room,state):
-        Actuators.__init__(self, pin,room,state)
+        Actuator.__init__(self, pin,room,state)
         self.type = "led"
-        Led.id +=1
-        self.id = Led.id
 
 
     def instruction(self,pin,state):
@@ -29,13 +29,10 @@ class Led(Actuators) :
 
 
 
-class Servomotor :
-    id = 0
+class Servomotor(Actuator) :
     def __init__(self,pin,room,state):
-        Actuators.__init__(self, pin,room,state)
+        Actuator.__init__(self, pin,room,state)
         self.type = "servo"
-        Servomotor.id +=1
-        self.id = Servomotor.id
 
     def instruction(self,pin,state):
         GPIO.setmode(GPIO.BOARD)
