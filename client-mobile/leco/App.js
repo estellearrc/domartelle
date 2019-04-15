@@ -1,6 +1,14 @@
 import React from "react";
 import SocketIOClient from "socket.io-client";
-import { StyleSheet, Text, View, Button, Switch, Slider } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Switch,
+  Slider,
+  ImageBackground
+} from "react-native";
 
 //To dismiss the Websocket connection warning, apparently useless (cf. https://stackoverflow.com/questions/53638667/unrecognized-websocket-connection-options-agent-permessagedeflate-pfx)
 console.ignoredYellowBox = ["Remote debugger"];
@@ -16,51 +24,76 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      switch1Value: 0,
-      switch2Value: 0,
-      switch3Value: 0
+      actionneurs: [false, false, false, 0, 0]
     };
   }
 
-  changStateLed(switchValue) {
-    if (switchValue === 0) {
-      switchValue = 1;
-    } else {
-      switchValue = 0;
-    }
-    sendInstruction("instruction_led");
+  changStateActionneur(value) {
+    this.setState({ value });
   }
 
-  sendInstruction(type, pin, state) {
-    socket.emit("instruction_to_rpi", type, pin, state);
+  sendInstruction(type, place, state) {
+    console.log("Sending...");
+    socket.emit("instruction_to_rpi", type, place, state);
+    console.log("Didn't crash");
   }
 
   render() {
+    var copieActionneurs = this.state.actionneurs;
     return (
-      <View style={{ flxDirection: "column", flex: 1 }}>
-        <View style={styles.container}>
-          <Switch
-            style={styles.switch}
-            value={this.state.switch1Value}
-            onValueChange={this.changStateLed}
-          />
-          <Switch
-            style={styles.switch}
-            value={this.state.switch2Value}
-            onValueChange={this.changStateLed}
-          />
-          <Switch
-            style={styles.switch}
-            value={this.state.switch3Value}
-            onValueChange={this.changState}
-          />
-        </View>
-        <View style={styles.containerJauge}>
-          <Slider
-            value={this.state.degree}
-            onValueChange={value => this.setState({ value })}
-          />
-        </View>
+      <View style={{ flexDirection: "column", flex: 1 }}>
+        <ImageBackground
+          source={require("./images/fond.jpg")}
+          style={styles.viewBackGround}
+        >
+          <View style={styles.container}>
+            <Switch
+              style={styles.switch}
+              value={copieActionneurs[0]}
+              onValueChange={!value}
+            />
+            <Switch
+              style={styles.switch}
+              value={copieActionneurs[1]}
+              onValueChange={!value}
+            />
+            <Switch
+              style={styles.switch}
+              value={copieActionneurs[2]}
+              onValueChange={!value}
+            />
+          </View>
+          <View style={{ flex: 1, flexDirection: "row" }}>
+            <View
+              style={[
+                styles.containerJauge,
+                {
+                  transform: [{ rotateZ: "-90deg" }],
+                  alignSelf: "center"
+                }
+              ]}
+            >
+              <Slider
+                value={copieActionneurs[3]}
+                onValueChange={value => this.setState({ value })}
+              />
+            </View>
+            <View
+              style={[
+                styles.containerJauge,
+                {
+                  transform: [{ rotateZ: "-90deg" }],
+                  alignSelf: "center"
+                }
+              ]}
+            >
+              <Slider
+                value={copieActionneurs[4]}
+                onValueChange={value => this.setState({ value })}
+              />
+            </View>
+          </View>
+        </ImageBackground>
       </View>
     );
   }
@@ -70,8 +103,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#fff",
-    marginTop: 50
+    marginTop: 50,
+    marginLeft: 30
   },
   switch: {
     width: 80,
@@ -79,7 +112,9 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   containerJauge: {
-    flex: 1,
-    orientation: "vertical"
+    flex: 1
+  },
+  viewBackGround: {
+    flex: 1
   }
 });
