@@ -3,9 +3,9 @@ import RPi.GPIO as GPIO
 
 class Led :
     id = 0
-    def __init__(self,pin,type,room,state):
+    def __init__(self,pin,room,state):
         self.pin = pin
-        self.type = type
+        self.type = "led"
         self.room=room
         self.state = state
         Led.id +=1
@@ -23,9 +23,9 @@ class Led :
 
 class Servomotor :
     id = 0
-    def __init__(self,pin,type,room,state):
+    def __init__(self,pin,room,state):
         self.pin = pin
-        self.type = type
+        self.type = "servo"
         self.room=room
         self.state = state
         Servomotor.id +=1
