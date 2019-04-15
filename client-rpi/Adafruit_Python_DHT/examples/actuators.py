@@ -1,13 +1,21 @@
 #!/usr/bin/python
-#import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 
-class Led :
-    id = 0
-    def __init__(self,pin,room,state):
-        self.pin = pin
-        self.type = "led"
+
+class Actuators:
+    def _init_(self, pin, room, state):
+         self.pin = pin
         self.room=room
         self.state = state
+        
+
+
+
+class Led(Actuators) :
+    id = 0
+    def __init__(self,pin,room,state):
+        Actuators.__init__(self, pin,room,state)
+        self.type = "led"
         Led.id +=1
         self.id = Led.id
 
@@ -24,10 +32,8 @@ class Led :
 class Servomotor :
     id = 0
     def __init__(self,pin,room,state):
-        self.pin = pin
+        Actuators.__init__(self, pin,room,state)
         self.type = "servo"
-        self.room=room
-        self.state = state
         Servomotor.id +=1
         self.id = Servomotor.id
 
