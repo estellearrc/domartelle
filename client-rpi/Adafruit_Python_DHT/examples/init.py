@@ -1,10 +1,9 @@
-import sys, os, logging, subprocess
+import sys, os, logging, subprocess, time
 from actuators import Led, Servomotor
 from sensors import TemperatureSensor, HumiditySensor, LuminositySensor, MovementSensor
 from socketIO_client_nexus import SocketIO #installer dans la Rpi voir dans README de Raph 
 
 
-logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
 socketIO = SocketIO('https://domartelle-server.herokuapp.com')
 
 led1 = Led(29)
@@ -54,6 +53,16 @@ def send_data(type,data):
     socketIO.emit('data_to_desktop',type, data)
 
 def main():
+    t1 = TemperatureSensor(4,False)
+    h1 = HumiditySensor(4,False)
+    l1 = LuminositySensor(False)
+    m1 = MovementSensor(11,False)
+    while True:
+        send_data('temperature',t1.RetrieveTemperature())
+        send_data('humidity',h1.RetrieveHumidity()) 
+        send_data('luminosity',l1.RetrieveLuminosity())
+        send_data('movement',m1.RetrieveMovement())
+        time.sleep(10)
     
     socketIO.on('connect', connect)
 
@@ -66,14 +75,6 @@ def main():
     # Keeps the socket open indefinitely...
     socketIO.wait()
 
-    t1 = TemperatureSensor(7,True)
-    send_data('temperature',t1.RetrieveTemperature())
-    h1 = HumiditySensor(15,True)
-    send_data('humidity',h1.RetrieveHumidity()) 
-    l1 = LuminositySensor(16, True)
-    send_data('luminosity',l1.RetrieveLuminosity())
-    m1 = MovementSensor(23,True)
-    send_data('movement',m1.RetrieveMovement())
 
 
 if __name__ == '__main__':

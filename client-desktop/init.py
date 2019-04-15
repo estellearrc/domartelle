@@ -29,13 +29,16 @@ def data_received(type,data):
 def display_data(type,data):
     """Affiche les donnees unitaires"""
     if type == "temperature":
-        print("La temperature dans la maison est "+ data +" degre Celsius")
+        print("La temperature dans la maison est "+ str(data) +" degre Celsius")
     elif type == "luminosity":
-        print("Le taux de luminosite dans la maison est de "+ data +" %")
+        print("Le taux de luminosite dans la maison est de "+ str(data) +" %")
     elif type == "movement":
-        print("Une personne est presente dans la maison...")
+        if data == 1:
+            print("Une personne est presente dans la maison...")
+        else:
+            print("La maison est vide")
     elif type == "humidity":
-        print("Le taux d'humidite dans la maison est de "+ data +" %")
+        print("Le taux d'humidite dans la maison est de "+ str(data) +" %")
     else:
         print("Format de donnees non reconnu")
 
@@ -43,7 +46,7 @@ def display_data_10_days(type):
     """Affiche la tendance des donnees du type demande sur 10 jours"""
 
 def save_data(type,data):
-    """Sauvegarde les donnees dans un fichier json """
+    """Sauvegarde les donnees dans un fichier csv """
 
 def main():
     
