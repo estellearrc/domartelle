@@ -37,5 +37,3 @@ class Servomotor :
         pwm = GPIO.PWM(pin,50)
         pwm.start(state) #ici le state sera en pourcentage
     
-    def createServo(self)
-    return {"_class_": "Servomotor",{json.dumps(self, default=lambda o: o.__dict__, indent=4)}}
