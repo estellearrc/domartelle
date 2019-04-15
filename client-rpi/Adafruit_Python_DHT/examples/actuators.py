@@ -5,8 +5,8 @@ class Led :
     id = 0
     def __init__(self,pin,type,room,number,state):
         self.pin = pin
-        self.room=room
         self.type = type
+        self.room=room
         self.number= number
         self.state = state
         Led.id +=1
@@ -26,8 +26,8 @@ class Servomotor :
     id = 0
     def __init__(self,pin,type,room,number,state):
         self.pin = pin
-        self.room=room
         self.type = type
+        self.room=room
         self.number= number
         self.state = state
         Servomotor.id +=1
