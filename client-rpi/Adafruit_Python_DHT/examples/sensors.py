@@ -4,18 +4,23 @@ import random
 import sys
 #import Adafruit_DHT
 
-class TemperatureSensor :
-    number = 0
-    def __init__(self,pin,stub, room):
-        TemperatureSensor.number += 1
-        self.type = "temperature"
-        self.number = TemperatureSensor.number
-        self.pin = pin
+class Sensor:
+    id = 0
+    def __init__(self,stub,room):
+        Sensor.id += 1
+        self.id = Sensor.id
         self.room = room
         self.stub = stub
         self.value = -1
+
+
+class TemperatureSensor(Sensor) :
+    def __init__(self,pin,stub,room):
+        self.type = "temperature"
+        self.pin = pin
+        Sensor.__init__(self,stub,room)
     
-    def RetrieveTemperature(self):
+    def RetrieveValue(self):
         if self.stub:
             self.value = random.randint(0,30)
             return self.value
@@ -29,18 +34,13 @@ class TemperatureSensor :
                 print('Failed to get reading temperature. Check GPIO pins and try again!')
                 sys.exit(1)
 
-class HumiditySensor :
-    number = 0
+class HumiditySensor(Sensor) :
     def __init__(self,pin,stub,room):
-        HumiditySensor.number += 1
         self.type = "humidity"
-        self.number = HumiditySensor.number
         self.pin = pin
-        self.stub = stub
-        self.room = room
-        self.value = -1
+        Sensor.__init__(self,stub,room)
 
-    def RetrieveHumidity(self):
+    def RetrieveValue(self):
         if self.stub:
             self.value = random.randint(0,100)
             return self.value
@@ -54,18 +54,13 @@ class HumiditySensor :
                 print('Failed to get reading humidity. Check GPIO pins and try again!')
                 sys.exit(1)
 
-class MotionSensor :
-    number = 0
+class MotionSensor(Sensor) :
     def __init__(self,pin,stub,room):
-        MotionSensor.number += 1
         self.type = "motion"
-        self.number = MotionSensor.number
         self.pin = pin
-        self.stub = stub
-        self.room = room
-        self.value = -1
+        Sensor.__init__(self,stub,room)
     
-    def RetrieveMovement(self):
+    def RetrieveValue(self):
         if self.stub:
             self.value = random.randint(0,1)
             return self.value
@@ -77,17 +72,13 @@ class MotionSensor :
             self.value = motion
             return self.value
 
-class LuminositySensor :
-    number = 0
-    def __init__(self,stub, room):
-        LuminositySensor.number += 1
+class LuminositySensor(Sensor) :
+    def __init__(self,pin,stub,room):
         self.type = "luminosity"
-        self.number = LuminositySensor.number
-        self.stub = stub
-        self.room = room
-        self.value = -1
+        self.pin = pin #24 ou 26
+        Sensor.__init__(self,stub,room)
 
-    def RetrieveLuminosity(self):
+    def RetrieveValue(self):
         if self.stub:
             self.value = random.randint(0,100)
             return self.value

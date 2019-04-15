@@ -124,12 +124,10 @@ def main():
 
     JSONToObj()
 
-    # while True:
-    #     send_data('temperature',t1.RetrieveTemperature())
-    #     send_data('humidity',h1.RetrieveHumidity()) 
-    #     send_data('luminosity',l1.RetrieveLuminosity())
-    #     send_data('motion',m1.RetrieveMovement())
-    #     time.sleep(10)
+    for sensor in sensors:
+        while True:
+            send_data(sensor.type,sensor.RetrieveValue())
+            time.sleep(10)
     
     socketIO.on('connect', connect)
 
