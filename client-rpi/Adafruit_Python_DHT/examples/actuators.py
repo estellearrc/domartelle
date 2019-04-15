@@ -3,11 +3,10 @@ import RPi.GPIO as GPIO
 
 class Led :
     id = 0
-    def __init__(self,pin,room,number,state):
+    def __init__(self,pin,room,state):
         self.pin = pin
-        self.type="led"
+        self.type = "led"
         self.room=room
-        self.number= number
         self.state = state
         Led.id +=1
         self.id = Led.id
@@ -18,13 +17,16 @@ class Led :
         GPIO.setup(pin,GPIO.OUT)
         GPIO.output(pin,state)
 
+
+
+
+
 class Servomotor :
     id = 0
-    def __init__(self,pin,room,number,state):
+    def __init__(self,pin,room,state):
         self.pin = pin
-        self.type="servo"
+        self.type = "servo"
         self.room=room
-        self.number= number
         self.state = state
         Servomotor.id +=1
         self.id = Servomotor.id
@@ -34,3 +36,4 @@ class Servomotor :
         GPIO.setup(pin,GPIO.OUT)
         pwm = GPIO.PWM(pin,50)
         pwm.start(state) #ici le state sera en pourcentage
+    

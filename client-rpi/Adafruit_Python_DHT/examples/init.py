@@ -91,6 +91,7 @@ def send_data(type,data):
     """Envoie les donnees sur le cloud Heroku"""
     socketIO.emit('data_to_desktop',type, data)
 
+
 def main():
     t1 = TemperatureSensor(4,False,"living room")
     h1 = HumiditySensor(4,False,"bathroom")
