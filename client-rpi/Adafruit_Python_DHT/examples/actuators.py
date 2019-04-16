@@ -5,17 +5,17 @@
 class Actuator:
     id = 0
 
-    def _init_(self, pin, room, value):
+    def __init__(self, pin, room, value):
         Actuator.id += 1
         self.id = Actuator.id
         self.pin = pin
         self.room = room
-        self.state = state
+        self.value = value
 
 
 class Led(Actuator):
     def __init__(self, pin, room, value):
-        Actuator.__init__(self, pin, room, state)
+        Actuator.__init__(self, pin, room, value)
         self.type = "led"
 
     def instruction(self, state):
@@ -26,7 +26,7 @@ class Led(Actuator):
 
 class Servomotor(Actuator):
     def __init__(self, pin, room, value):
-        Actuator.__init__(self, pin, room, state)
+        Actuator.__init__(self, pin, room, value)
         self.type = "servo"
 
     def instruction(self, pin, value):
