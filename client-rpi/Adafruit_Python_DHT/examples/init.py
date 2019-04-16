@@ -87,6 +87,7 @@ def JSONToObj():
     
 
 def instruction_received(type,room,id,value):
+    print("coucou Z")
     actuators[id-1].value = value
     write("set")
     read("set")
