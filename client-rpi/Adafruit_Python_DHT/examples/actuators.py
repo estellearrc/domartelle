@@ -1,5 +1,5 @@
 #!/usr/bin/python
- import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 
 class Actuator:
