@@ -32,9 +32,9 @@ export default class App extends React.Component {
     this.setState({ value });
   }
 
-  sendInstruction(type, place, state) {
+  sendInstruction(type, room, id, value) {
     console.log("Sending...");
-    socket.emit("instruction_to_rpi", type, place, state);
+    socket.emit("instruction_to_rpi", type, room, id, value);
     console.log("Didn't crash");
   }
 

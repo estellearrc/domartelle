@@ -87,19 +87,8 @@ def JSONToObj():
                 print("Unknown type object")
         f.close()
 
-def instruction_received(type,pin,state):
-    if type == "instruction_led":
-        if pin == 29 :
-            led1.instruction(pin,state)
-        elif pin == 33 :
-            led2.instruction(pin,state)
-        else : 
-            led3.instruction(pin,state)
-    elif type == "instruction_servos" :
-        if pin == 40 :
-            servo1.instruction(pin,state)
-        else : 
-            servo2.instruction(pin,state)
+def instruction_received(type,room,id,value):
+    actuators[id-1].value= value
 
 
 def send_data(type,room,id,value):
@@ -128,6 +117,18 @@ def read_get():
             send_data(type,room,id,value)
         csv_file.close()
 
+def read_set():
+    with open('set.csv') as csv_file:
+        delimiter=','
+        csv_reader = csv.reader(csv_file, delimiter = delimiter)
+        for row in csv_reader:
+            tab = row.split(delimiter)
+            type = tab[0]
+            room = tab[1]
+            id = tab[2]
+            value = tab[3]
+            actuators[id-1].instruction(value)
+        csv_file.close()
 
 
 def main():

@@ -5,7 +5,7 @@
 class Actuator:
     id = 0
 
-    def _init_(self, pin, room, state):
+    def _init_(self, pin, room, value):
         Actuator.id += 1
         self.id = Actuator.id
         self.pin = pin
@@ -14,22 +14,22 @@ class Actuator:
 
 
 class Led(Actuator):
-    def __init__(self, pin, room, state):
+    def __init__(self, pin, room, value):
         Actuator.__init__(self, pin, room, state)
         self.type = "led"
 
-    def instruction(self, pin, state):
+    def instruction(self, state):
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(pin, GPIO.OUT)
-        GPIO.output(pin, state)
+        GPIO.setup(self.pin, GPIO.OUT)
+        GPIO.output(self.pin, state)
 
 
 class Servomotor(Actuator):
-    def __init__(self, pin, room, state):
+    def __init__(self, pin, room, value):
         Actuator.__init__(self, pin, room, state)
         self.type = "servo"
 
-    def instruction(self, pin, state):
+    def instruction(self, pin, value):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(pin, GPIO.OUT)
         pwm = GPIO.PWM(pin, 50)
