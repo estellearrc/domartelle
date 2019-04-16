@@ -86,12 +86,12 @@ def JSONToObj():
         f.close()
     
 
-def instruction_received(type,room,id,value):
+def instruction_received(id,value):
     print("coucou Z")
-    actuators[id-1].value = value
+    actuators[id-1].value= value
     write("set")
     read("set")
-    
+
 
 def send_data(type,room,id,value):
     """Envoie les donnees sur le cloud Heroku"""

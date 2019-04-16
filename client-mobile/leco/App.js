@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   Switch,
   Slider,
   ImageBackground
@@ -23,23 +22,37 @@ const socket = SocketIOClient("https://domartelle-server.herokuapp.com", {});
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    /* socket.on("data_to_terminal", this.initializeApp); */
     this.state = {
       actionneurs: [false, false, false, 0, 0]
     };
   }
 
-  changStateActionneur(value) {
-    this.setState({ value });
+  initializeApp() {}
+
+  changStateActionneur(copieActionneurs) {
+    this.setState({ actionneurs: copieActionneurs });
   }
 
-  sendInstruction(type, room, id, value) {
+  sendInstruction(id, copieActionneurs) {
+    this.changStateActionneur(copieActionneurs);
     console.log("Sending...");
-    socket.emit("instruction_to_rpi", type, room, id, value);
+    if (this.state.actionneurs[id - 1] === false) {
+      socket.emit("instruction_to_rpi", id, 0);
+      console.log(id);
+      console.log("OFF");
+    } else {
+      socket.emit("instruction_to_rpi", id, 1);
+      console.log(id);
+      console.log("ON");
+    }
+
     console.log("Didn't crash");
   }
 
   render() {
     var copieActionneurs = this.state.actionneurs;
+    console.log("start" + copieActionneurs[0]);
     return (
       <View style={{ flexDirection: "column", flex: 1 }}>
         <ImageBackground
@@ -50,17 +63,26 @@ export default class App extends React.Component {
             <Switch
               style={styles.switch}
               value={copieActionneurs[0]}
-              onValueChange={!value}
+              onValueChange={value => {
+                copieActionneurs[0] = value;
+                console.log("coucou : " + copieActionneurs[0]);
+                this.sendInstruction(1, copieActionneurs);
+              }}
             />
+
             <Switch
               style={styles.switch}
               value={copieActionneurs[1]}
-              onValueChange={!value}
+              onValueChange={() => {
+                this.sendInstruction(2, copieActionneurs);
+              }}
             />
             <Switch
               style={styles.switch}
               value={copieActionneurs[2]}
-              onValueChange={!value}
+              onValueChange={() => {
+                this.sendInstruction(3, copieActionneurs);
+              }}
             />
           </View>
           <View style={{ flex: 1, flexDirection: "row" }}>
