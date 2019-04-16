@@ -125,7 +125,7 @@ def read(getOrSet):
 
 
 def launch_instruction(id,value):
-     actuators[id-1].instruction(value)
+    actuators[id-1].instruction(value)
 
 def main():
     # t1 = TemperatureSensor(4,False,"living room")
