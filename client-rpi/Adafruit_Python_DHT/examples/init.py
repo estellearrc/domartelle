@@ -106,17 +106,17 @@ def send_data(type,room,id,value):
     """Envoie les donnees sur le cloud Heroku"""
     socketIO.emit('data_to_desktop',type, room, id, value)
 
-def write_get():
-    with open('get.csv','w') as f:
-        getWriter = csv.writer(f,delimiter=',') #quotechar='"', quoting=csv.QUOTE_MINIMAL
+def write(getOrSet):
+    with open(getOrSet+'.csv','w') as f:
+        writer = csv.writer(f,delimiter=',') #quotechar='"', quoting=csv.QUOTE_MINIMAL
         for actuator in actuators:
-            getWriter.writerow([actuator.type,actuator.room,actuator.id,actuator.value])
+            writer.writerow([actuator.type,actuator.room,actuator.id,actuator.value])
         for sensor in sensors:
-            getWriter.writerow([sensor.type,sensor.room,sensor.id,sensor.value])
+            writer.writerow([sensor.type,sensor.room,sensor.id,sensor.value])
         f.close()
 
-def read_get():
-    with open('get.csv') as csv_file:
+def read(getOrSet):
+    with open(getOrSet+'.csv') as csv_file:
         delimiter=','
         csv_reader = csv.reader(csv_file, delimiter = delimiter)
         for row in csv_reader:
@@ -125,7 +125,10 @@ def read_get():
             room = tab[1]
             id = tab[2]
             value = tab[3]
-            send_data(type,room,id,value)
+            if(getOrSet == 'get'):
+                send_data(type,room,id,value)
+            else:
+                launch_instruction(id,value)
         csv_file.close()
 
 
@@ -147,8 +150,8 @@ def main():
         for sensor in sensors:
             sensor.value = sensor.RetrieveValue()
             #send_data(sensor.type,sensor.room,sensor.id,sensor.value)
-        write_get()
-        read_get()
+        write('get')
+        read('get')
         time.sleep(30)
     
     socketIO.on('connect', connect)
