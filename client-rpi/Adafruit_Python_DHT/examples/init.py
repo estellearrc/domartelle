@@ -87,14 +87,14 @@ def JSONToObj():
     
 
 def instruction_received(type,room,id,value):
-    actuators[id-1].value= value
+    actuators[id-1].value = value
     write("set")
     read("set")
     
 
 def send_data(type,room,id,value):
     """Envoie les donnees sur le cloud Heroku"""
-    socketIO.emit('data_to_desktop',type, room, id, value)
+    socketIO.emit('data_to_terminal',type, room, id, value)
 
 def write(getOrSet):
     with open(getOrSet+'.csv','wb') as f:
