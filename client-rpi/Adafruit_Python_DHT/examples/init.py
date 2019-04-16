@@ -147,9 +147,7 @@ def main():
     # objToJSON()
 
     JSONToObj()
-    print(sensors)
-    print(actuators)
-    retrieve_data(30)
+    retrieve_data(10)
     
     socketIO.on('connect', connect)
 

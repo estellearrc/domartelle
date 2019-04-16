@@ -23,7 +23,7 @@ def authenticated(*args):
 	
 def data_received(type,room,id,value):
     """Recoit les donnees provenant du cloud Heroku, les sauvegarde en local et les affiche"""
-    #save_data(type,value)
+    save_data(type,value)
     display_data(type,room,id,value)
     #n = 7
     #display_data_n_days(type, n)
@@ -61,8 +61,8 @@ def save_data(type,value):
     """Sauvegarde les donnees dans un fichier csv """
     path = str(type) + '_log.csv'
     with open(path,'wb') as f:
-        getWriter = csv.writer(f,delimiter=',')
-        f.seek(0,2) #place le curseur a la fin du fichier
+        #f.seek(0,2)
+        getWriter = csv.writer(f,delimiter=',') #place le curseur a la fin du fichier
         timestamp = int(time.time())
         getWriter.writerow([timestamp,value])
         f.close()
