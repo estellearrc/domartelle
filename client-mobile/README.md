@@ -2,5 +2,5 @@
 
 npm i --save socket.io-client
 
-
-State : tableau et setState dans un didUpdate 
+Flatlist avec un domain actuators
+-> permet de s'adapter au nombre de led que l'on entre dans le dossier config

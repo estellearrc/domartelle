@@ -87,20 +87,11 @@ def JSONToObj():
                 print("Unknown type object")
         f.close()
 
-def instruction_received(type,pin,state):
-    if type == "instruction_led":
-        if pin == 29 :
-            led1.instruction(pin,state)
-        elif pin == 33 :
-            led2.instruction(pin,state)
-        else : 
-            led3.instruction(pin,state)
-    elif type == "instruction_servos" :
-        if pin == 40 :
-            servo1.instruction(pin,state)
-        else : 
-            servo2.instruction(pin,state)
-
+def instruction_received(type,room,id,value):
+    actuators[id-1].value= value
+    write("set")
+    read("set")
+    
 
 def send_data(type,room,id,value):
     """Envoie les donnees sur le cloud Heroku"""
@@ -128,10 +119,13 @@ def read(getOrSet):
             if(getOrSet == 'get'):
                 send_data(type,room,id,value)
             else:
-                launch_instruction(id,value)
+                if(type == "led" or type == "servo"):
+                    launch_instruction(id,value)
         csv_file.close()
 
 
+def launch_instruction(id,value):
+     actuators[id-1].instruction(value)
 
 def main():
     # t1 = TemperatureSensor(4,False,"living room")
