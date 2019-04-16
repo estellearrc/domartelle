@@ -49,8 +49,6 @@ def objToJSON():
         f.close()
 
 def JSONToObj():
-    sensors = []
-    actuators = []
     with open('config.json', 'r') as f:
         for line in f:
             obj = json.loads(line)
@@ -86,6 +84,7 @@ def JSONToObj():
             else:
                 print("Unknown type object")
         f.close()
+    
 
 def instruction_received(id,value):
     actuators[id-1].value= value
@@ -95,10 +94,10 @@ def instruction_received(id,value):
 
 def send_data(type,room,id,value):
     """Envoie les donnees sur le cloud Heroku"""
-    socketIO.emit('data_to_desktop',type, room, id, value)
+    socketIO.emit('data_to_terminal',type, room, id, value)
 
 def write(getOrSet):
-    with open(getOrSet+'.csv','w') as f:
+    with open(getOrSet+'.csv','wb') as f:
         writer = csv.writer(f,delimiter=',') #quotechar='"', quoting=csv.QUOTE_MINIMAL
         for actuator in actuators:
             writer.writerow([actuator.type,actuator.room,actuator.id,actuator.value])
@@ -107,15 +106,13 @@ def write(getOrSet):
         f.close()
 
 def read(getOrSet):
-    with open(getOrSet+'.csv') as csv_file:
-        delimiter=','
-        csv_reader = csv.reader(csv_file, delimiter = delimiter)
+    with open(getOrSet+'.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter = ',')
         for row in csv_reader:
-            tab = row.split(delimiter)
-            type = tab[0]
-            room = tab[1]
-            id = tab[2]
-            value = tab[3]
+            type = row[0]
+            room = row[1]
+            id = int(row[2])
+            value = int(row[3])
             if(getOrSet == 'get'):
                 send_data(type,room,id,value)
             else:
@@ -125,7 +122,16 @@ def read(getOrSet):
 
 
 def launch_instruction(id,value):
-     actuators[id-1].instruction(value)
+    actuators[id-1].instruction(value)
+
+def retrieve_data(n):
+    """Recupere les donnees des capteurs toutes les n secondes"""
+    while True:
+        for sensor in sensors:
+            sensor.value = sensor.RetrieveValue()
+        write('get')
+        read('get')
+        time.sleep(n)
 
 def main():
     # t1 = TemperatureSensor(4,False,"living room")
@@ -140,13 +146,7 @@ def main():
     # objToJSON()
 
     JSONToObj()
-    while True:
-        for sensor in sensors:
-            sensor.value = sensor.RetrieveValue()
-            #send_data(sensor.type,sensor.room,sensor.id,sensor.value)
-        write('get')
-        read('get')
-        time.sleep(30)
+    retrieve_data(10)
     
     socketIO.on('connect', connect)
 

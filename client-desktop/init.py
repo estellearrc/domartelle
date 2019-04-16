@@ -21,39 +21,50 @@ def on_disconnect():
 def authenticated(*args):
     print('computer is connected to the Server')
 	
-def data_received(type,data):
+def data_received(type,room,id,value):
     """Recoit les donnees provenant du cloud Heroku, les sauvegarde en local et les affiche"""
-    save_data(type,data)
-    display_data(type,data)
+    save_data(type,value)
+    display_data(type,room,id,value)
     #n = 7
     #display_data_n_days(type, n)
     
-def display_data(type,data):
+def display_data(type,room,id,value):
     """Affiche les donnees unitaires"""
     if type == "temperature":
-        print("La temperature dans la maison est "+ str(data) +" degres Celsius")
+        print("The temperature in the "+ room +" is "+ str(value) +" Celsius degrees")
     elif type == "luminosity":
-        print("Le taux de luminosite dans la maison est de "+ str(data) +" %")
+        print("The luminosity in the "+ room +" is "+ str(value) +" %")
     elif type == "motion":
-        if data == 1:
-            print("Une personne est presente dans la maison...")
+        if value == 1:
+            print("Someone is in the "+ room +"...")
         else:
-            print("La maison est vide")
+            print("The "+room+" is empty")
     elif type == "humidity":
-        print("Le taux d'humidite dans la maison est de "+ str(data) +" %")
+        print("The humidity rate in the "+room+" is "+ str(value) +" %")
+    elif type == "led":
+        if value == 1:
+            print("The light in the "+room+" is on")
+        else:
+            print("The light in the "+room+" is off")
+    elif type == "servo":
+        if value == 0:
+            print("The door or the window in the "+room+" is closed")
+        else:
+            print("The door or the window in the "+room+" is open")
     else:
-        print("Format de donnees non reconnu")
+        print("Unknown data type")
 
 def display_data_n_days(type, n):
     """Affiche la tendance des donnees du type demande sur n jours"""
 
-def save_data(type,data):
+def save_data(type,value):
     """Sauvegarde les donnees dans un fichier csv """
     path = str(type) + '_log.csv'
-    with open(path,'w') as f:
-        getWriter = csv.writer(f,delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    with open(path,'wb') as f:
+        #f.seek(0,2)
+        getWriter = csv.writer(f,delimiter=',') #place le curseur a la fin du fichier
         timestamp = int(time.time())
-        getWriter.writerow([timestamp,data])
+        getWriter.writerow([timestamp,value])
         f.close()
 
 def main():
@@ -64,7 +75,7 @@ def main():
 
     socketIO.on('disconnect', on_disconnect)
 
-    socketIO.on('data_to_desktop', data_received)
+    socketIO.on('data_to_terminal', data_received)
 
     # Keeps the socket open indefinitely...
     socketIO.wait()

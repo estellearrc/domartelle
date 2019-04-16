@@ -3,7 +3,7 @@
 {"id": 3, "pin": 38, "room": "entrance", "state": 1, "type": "led"}
 {"id": 1, "pin": 40, "room": "entrance", "state": 0, "type": "servo"}
 {"id": 2, "pin": 37, "room": "living room", "state": 0, "type": "servo"}
-{"number": 1, "pin": 4, "room": "living room", "stub": false, "type": "temperature", "value": -1}
-{"number": 1, "pin": 4, "room": "bathroom", "stub": false, "type": "humidity", "value": -1}
-{"number": 1, "room": "bedroom", "stub": false, "type": "luminosity", "value": -1}
-{"number": 1, "pin": 11, "room": "study", "stub": false, "type": "motion", "value": -1}
+{"number": 1, "pin": 4, "room": "living room", "stub": true, "type": "temperature", "value": -1}
+{"number": 1, "pin": 4, "room": "bathroom", "stub": true, "type": "humidity", "value": -1}
+{"number": 1, "room": "bedroom", "stub": true, "type": "luminosity", "value": -1}
+{"number": 1, "pin": 11, "room": "study", "stub": true, "type": "motion", "value": -1}
