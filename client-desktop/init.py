@@ -1,5 +1,5 @@
 from socketIO_client_nexus import SocketIO
-import sys
+import sys, csv, time, os
 
 #logging.getLogger('socketIO-client').setLevel(logging.DEBUG) #permet de debboguer les erreurs
 socketIO = SocketIO("https://domartelle-server.herokuapp.com")
@@ -49,8 +49,12 @@ def display_data_n_days(type, n):
 
 def save_data(type,data):
     """Sauvegarde les donnees dans un fichier csv """
-
-
+    path = str(type) + '_log.csv'
+    with open(path,'w') as f:
+        getWriter = csv.writer(f,delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        timestamp = int(time.time())
+        getWriter.writerow([timestamp,data])
+        f.close()
 
 def main():
     
