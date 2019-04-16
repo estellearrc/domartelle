@@ -149,7 +149,6 @@ def main():
     while True:
         for sensor in sensors:
             sensor.value = sensor.RetrieveValue()
-            #send_data(sensor.type,sensor.room,sensor.id,sensor.value)
         write('get')
         read('get')
         time.sleep(30)
