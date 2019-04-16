@@ -89,7 +89,9 @@ def JSONToObj():
 
 def instruction_received(type,room,id,value):
     actuators[id-1].value= value
-
+    write("set")
+    read("set")
+    
 
 def send_data(type,room,id,value):
     """Envoie les donnees sur le cloud Heroku"""
@@ -117,22 +119,13 @@ def read(getOrSet):
             if(getOrSet == 'get'):
                 send_data(type,room,id,value)
             else:
-                launch_instruction(id,value)
+                if(type == "led" or type == "servo"):
+                    launch_instruction(id,value)
         csv_file.close()
 
-def read_set():
-    with open('set.csv') as csv_file:
-        delimiter=','
-        csv_reader = csv.reader(csv_file, delimiter = delimiter)
-        for row in csv_reader:
-            tab = row.split(delimiter)
-            type = tab[0]
-            room = tab[1]
-            id = tab[2]
-            value = tab[3]
-            actuators[id-1].instruction(value)
-        csv_file.close()
 
+def launch_instruction(id,value):
+     actuators[id-1].instruction(value)
 
 def main():
     # t1 = TemperatureSensor(4,False,"living room")
