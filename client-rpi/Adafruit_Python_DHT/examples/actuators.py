@@ -4,7 +4,7 @@
 
 class Actuators:
     def _init_(self, pin, room, state):
-         self.pin = pin
+        self.pin = pin
         self.room=room
         self.state = state
         
