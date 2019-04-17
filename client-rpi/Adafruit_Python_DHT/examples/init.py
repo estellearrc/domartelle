@@ -127,7 +127,7 @@ def launch_instruction(id,value):
 
 def retrieve_data(n):
     """Recupere les donnees des capteurs toutes les n secondes"""
-    while True:
+    for i in range(n):
         for sensor in sensors:
             sensor.value = sensor.RetrieveValue()
         write('get')
@@ -161,12 +161,12 @@ def main():
     socketIO.on('instruction_to_rpi', instruction_received)
     
     print("Listening...")
+    
+    retrieve_data(10)
+    print("Listening...")
 
     # Keeps the socket open indefinitely...
     socketIO.wait()
-    
-    retrieve_data(10)
-
 
 
 if __name__ == '__main__':
