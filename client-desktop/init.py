@@ -60,11 +60,12 @@ def display_data_n_days(type, n):
 def save_data(type,value):
     """Sauvegarde les donnees dans un fichier csv """
     path = str(type) + '_log.csv'
-    with open(path,'wb') as f:
-        #f.seek(0,2)
-        getWriter = csv.writer(f,delimiter=',') #place le curseur a la fin du fichier
+    with open(path,'ab') as f:
+        writer = csv.writer(f,delimiter=',') 
         timestamp = int(time.time())
-        getWriter.writerow([timestamp,value])
+        print(timestamp)
+        print(value)
+        writer.writerow([timestamp,value])
         f.close()
 
 def main():
