@@ -73,14 +73,18 @@ export default class App extends React.Component {
             <Switch
               style={styles.switch}
               value={copieActionneurs[1]}
-              onValueChange={() => {
+              onValueChange={value => {
+                copieActionneurs[1] = value;
+                console.log("coucou : " + copieActionneurs[1]);
                 this.sendInstruction(2, copieActionneurs);
               }}
             />
             <Switch
               style={styles.switch}
               value={copieActionneurs[2]}
-              onValueChange={() => {
+              onValueChange={value => {
+                copieActionneurs[2] = value;
+                console.log("coucou : " + copieActionneurs[2]);
                 this.sendInstruction(3, copieActionneurs);
               }}
             />
