@@ -22,13 +22,15 @@ const socket = SocketIOClient("https://domartelle-server.herokuapp.com", {});
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    /* socket.on("data_to_terminal", this.initializeApp); */
+    socket.on('data_to_terminal', this.initializeApp);
     this.state = {
       actionneurs: [false, false, false, 0, 0]
     };
   }
 
-  initializeApp() {}
+  initializeApp(type, room, id, value) {
+    console.log("coucou Z");
+  }
 
   changStateActionneur(copieActionneurs) {
     this.setState({ actionneurs: copieActionneurs });
@@ -53,6 +55,7 @@ export default class App extends React.Component {
   render() {
     var copieActionneurs = this.state.actionneurs;
     console.log("start" + copieActionneurs[0]);
+    console.log("test : " + copieActionneurs[2]);
     return (
       <View style={{ flexDirection: "column", flex: 1 }}>
         <ImageBackground
