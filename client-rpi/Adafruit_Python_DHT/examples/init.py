@@ -87,8 +87,8 @@ def JSONToObj():
     
 
 def instruction_received(id,value):
-    print("coucou Z")
-    actuators[id-1].value= value
+    print('coucou Z')
+    actuators[id-1].value = value
     write("set")
     read("set")
 
@@ -145,9 +145,12 @@ def main():
     # sensors.append(m1)
 
     # objToJSON()
-
+    
+    print("Listening...")
+    
     JSONToObj()
-    retrieve_data(10)
+    
+    print("Listening...")
     
     socketIO.on('connect', connect)
 
@@ -156,9 +159,13 @@ def main():
     socketIO.on('disconnect', on_disconnect)
 
     socketIO.on('instruction_to_rpi', instruction_received)
+    
+    print("Listening...")
 
     # Keeps the socket open indefinitely...
     socketIO.wait()
+    
+    retrieve_data(10)
 
 
 
