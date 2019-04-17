@@ -1,47 +1,46 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <title>DevExtreme Demo</title>
+    <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script>
-      window.jQuery ||
-        document.write(
-          decodeURIComponent('%3Cscript src="js/jquery.min.js"%3E%3C/script%3E')
-        );
-    </script>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn3.devexpress.com/jslib/18.2.7/css/dx.common.css"
-    />
-    <link
-      rel="dx-theme"
-      data-theme="generic.light"
-      href="https://cdn3.devexpress.com/jslib/18.2.7/css/dx.light.css"
-    />
-    <script src="https://cdn3.devexpress.com/jslib/18.2.7/js/dx.all.js"></script>
-    <script src="data.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
-    <script src="index.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="lib\bootstrap\css\bootstrap.min.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+    <title>LECO</title>
+    <script src="node_modules/chart.js/dist/Chart.min.js"></script>
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
   </head>
-  <body class="dx-viewport">
-    <div class="demo-container">
-      <div id="chart-demo">
-        <div id="chart"></div>
-        <div class="options">
-          <div class="caption">Options</div>
-          <div class="option">
-            <span>Series Type</span>
-            <div id="types"></div>
-          </div>
-        </div>
-      </div>
+  <body>
+    <div>
+      <canvas id="myChart"></canvas>
+      <script>
+        var myContext = document.getElementById("myChart");
+        var myChartConfig = {
+          type: "bar",
+          data: {
+            labels: ["Féminin", "Masculin", "Animaux"],
+            datasets: [
+              {
+                label: "Tous les voyageurs",
+                data: [227, 331, 11],
+                backgroundColor: ["green", "green", "green"]
+              },
+              {
+                label: "1ère Classe",
+                data: [107, 115, 2],
+                backgroundColor: ["red", "red", "red"]
+              },
+              {
+                label: "2ème Classe",
+                data: [120, 116, 9],
+                backgroundColor: ["blue", "blue", "blue"]
+              }
+            ]
+          }
+        };
+        var myChart = new Chart(myContext, myChartConfig);
+      </script>
     </div>
   </body>
 </html>
