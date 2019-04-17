@@ -21,3 +21,22 @@
   display: inline-block;
   vertical-align: middle;
 }
+
+.well {
+  position: relative;
+  height: 40vh;
+  width: 80vh;
+  margin: 5vh;
+}
+
+h1 {
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: black;
+}
+
+h3 {
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: black;
+}
