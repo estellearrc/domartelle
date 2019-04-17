@@ -38,6 +38,14 @@ def on_disconnect():
 def authenticated(*args):
     print('RPI is connected to the Server')
 
+def instruction_received(id,value):
+    print("coucou Z")
+    actuators[id-1].value = value
+    write("set")
+    read("set")
+
+
+
 def objToJSON():
     with open('config.json','w') as f:
         for actuator in actuators:
@@ -86,12 +94,6 @@ def JSONToObj():
         f.close()
     
 
-def instruction_received(id,value):
-    print('coucou Z')
-    actuators[id-1].value = value
-    write("set")
-    read("set")
-
 
 def send_data(type,room,id,value):
     """Envoie les donnees sur le cloud Heroku"""
@@ -127,7 +129,7 @@ def launch_instruction(id,value):
 
 def retrieve_data(n):
     """Recupere les donnees des capteurs toutes les n secondes"""
-    while True:
+    for i in range(n):
         for sensor in sensors:
             sensor.value = sensor.RetrieveValue()
         write('get')
@@ -161,12 +163,12 @@ def main():
     socketIO.on('instruction_to_rpi', instruction_received)
     
     print("Listening...")
+    
+    retrieve_data(10)
+    print("Listening...")
 
     # Keeps the socket open indefinitely...
     socketIO.wait()
-    
-    retrieve_data(10)
-
 
 
 if __name__ == '__main__':
