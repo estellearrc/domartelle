@@ -1,6 +1,42 @@
-#container {
-  min-width: 310px;
-  max-width: 800px;
-  height: 400px;
-  margin: 0 auto;
+.options {
+  padding: 20px;
+  background-color: rgba(191, 191, 191, 0.15);
+  margin-top: 20px;
+}
+
+.option {
+  margin-top: 10px;
+}
+
+.caption {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.option > span {
+  margin-right: 10px;
+}
+
+.option > .dx-widget {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.well {
+  position: relative;
+  height: 40vh;
+  width: 80vh;
+  margin: 5vh;
+}
+
+h1 {
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: black;
+}
+
+h3 {
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: black;
 }

@@ -1,69 +1,52 @@
-Highcharts.chart("container", {
-  title: {
-    text: "Solar Employment Growth by Sector, 2010-2016"
+var dataSource = [
+  {
+    country: "USA",
+    hydro: 59.8,
+    oil: 937.6,
+    gas: 582,
+    coal: 564.3,
+    nuclear: 187.9
   },
-
-  subtitle: {
-    text: "Source: thesolarfoundation.com"
+  {
+    country: "China",
+    hydro: 74.2,
+    oil: 308.6,
+    gas: 35.1,
+    coal: 956.9,
+    nuclear: 11.3
   },
-
-  yAxis: {
-    title: {
-      text: "Number of Employees"
-    }
+  {
+    country: "Russia",
+    hydro: 40,
+    oil: 128.5,
+    gas: 361.8,
+    coal: 105,
+    nuclear: 32.4
   },
-  legend: {
-    layout: "vertical",
-    align: "right",
-    verticalAlign: "middle"
+  {
+    country: "Japan",
+    hydro: 22.6,
+    oil: 241.5,
+    gas: 64.9,
+    coal: 120.8,
+    nuclear: 64.8
   },
-
-  plotOptions: {
-    series: {
-      label: {
-        connectorAllowed: false
-      },
-      pointStart: 2010
-    }
+  {
+    country: "India",
+    hydro: 19,
+    oil: 119.3,
+    gas: 28.9,
+    coal: 204.8,
+    nuclear: 3.8
   },
-
-  series: [
-    {
-      name: "Installation",
-      data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-    },
-    {
-      name: "Manufacturing",
-      data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-    },
-    {
-      name: "Sales & Distribution",
-      data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-    },
-    {
-      name: "Project Development",
-      data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-    },
-    {
-      name: "Other",
-      data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-    }
-  ],
-
-  responsive: {
-    rules: [
-      {
-        condition: {
-          maxWidth: 500
-        },
-        chartOptions: {
-          legend: {
-            layout: "horizontal",
-            align: "center",
-            verticalAlign: "bottom"
-          }
-        }
-      }
-    ]
+  {
+    country: "Germany",
+    hydro: 6.1,
+    oil: 123.6,
+    gas: 77.3,
+    coal: 85.7,
+    nuclear: 37.8
   }
-});
+];
+
+var types = ["line", "stackedline", "fullstackedline"];

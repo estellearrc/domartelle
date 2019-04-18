@@ -18,10 +18,10 @@ class Led(Actuator):
         Actuator.__init__(self, pin, room, value)
         self.type = "led"
 
-    def instruction(self, state):
+    def instruction(self, value):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.pin, GPIO.OUT)
-        GPIO.output(self.pin, state)
+        GPIO.output(self.pin, value)
 
 
 class Servomotor(Actuator):
@@ -29,8 +29,8 @@ class Servomotor(Actuator):
         Actuator.__init__(self, pin, room, value)
         self.type = "servo"
 
-    def instruction(self, pin, value):
+    def instruction(self, value):
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(pin, GPIO.OUT)
-        pwm = GPIO.PWM(pin, 50)
-        pwm.start(state)  # ici le state sera en pourcentage
+        GPIO.setup(self.pin, GPIO.OUT)
+        pwm = GPIO.PWM(self.pin, 50)
+        pwm.start(value)  # ici le state sera en pourcentage
