@@ -6,7 +6,8 @@ import {
   View,
   Switch,
   Slider,
-  ImageBackground
+  ImageBackground,
+  Button
 } from "react-native";
 
 //To dismiss the Websocket connection warning, apparently useless (cf. https://stackoverflow.com/questions/53638667/unrecognized-websocket-connection-options-agent-permessagedeflate-pfx)
@@ -22,21 +23,29 @@ const socket = SocketIOClient("https://domartelle-server.herokuapp.com", {});
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    socket.on('data_to_terminal', this.initializeApp);
+    /* socket.once('data_to_terminal', this.initializeApp); */
     this.state = {
       actionneurs: [false, false, false, 0, 0]
     };
   }
 
   initializeApp(type, room, id, value) {
-    console.log("coucou Z");
+    /* for(var i =0;i< this.state.actionneurs.length;i++){
+     */
+    console.log("Coucou Z");
   }
 
   changStateActionneur(copieActionneurs) {
     this.setState({ actionneurs: copieActionneurs });
   }
 
-  sendInstruction(id, copieActionneurs) {
+  sendInstructionServo(id, copieActionneurs) {
+    this.changStateActionneur(copieActionneurs);
+    console.log("Sending...");
+    socket.emit("instruction_to_rpi", id, this.state.actionneurs[id - 1]);
+  }
+
+  sendInstructionLed(id, copieActionneurs) {
     this.changStateActionneur(copieActionneurs);
     console.log("Sending...");
     if (this.state.actionneurs[id - 1] === false) {
@@ -69,7 +78,7 @@ export default class App extends React.Component {
               onValueChange={value => {
                 copieActionneurs[0] = value;
                 console.log("coucou : " + copieActionneurs[0]);
-                this.sendInstruction(1, copieActionneurs);
+                this.sendInstructionLed(1, copieActionneurs);
               }}
             />
 
@@ -79,7 +88,7 @@ export default class App extends React.Component {
               onValueChange={value => {
                 copieActionneurs[1] = value;
                 console.log("coucou : " + copieActionneurs[1]);
-                this.sendInstruction(2, copieActionneurs);
+                this.sendInstructionLed(2, copieActionneurs);
               }}
             />
             <Switch
@@ -88,7 +97,7 @@ export default class App extends React.Component {
               onValueChange={value => {
                 copieActionneurs[2] = value;
                 console.log("coucou : " + copieActionneurs[2]);
-                this.sendInstruction(3, copieActionneurs);
+                this.sendInstructionLed(3, copieActionneurs);
               }}
             />
           </View>
@@ -104,7 +113,13 @@ export default class App extends React.Component {
             >
               <Slider
                 value={copieActionneurs[3]}
-                onValueChange={value => this.setState({ value })}
+                maximumValue={25}
+                step={5}
+                onValueChange={value => {
+                  copieActionneurs[3] = value;
+                  console.log("coucou : " + copieActionneurs[3]);
+                  this.sendInstructionServo(4, copieActionneurs);
+                }}
               />
             </View>
             <View
@@ -118,7 +133,11 @@ export default class App extends React.Component {
             >
               <Slider
                 value={copieActionneurs[4]}
-                onValueChange={value => this.setState({ value })}
+                maximumValue={75}
+                step={10}
+                onValueChange={value => {
+                  copieActionneurs[4] = value;
+                }}
               />
             </View>
           </View>
