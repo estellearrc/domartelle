@@ -33,4 +33,5 @@ class Servomotor(Actuator):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.pin, GPIO.OUT)
         pwm = GPIO.PWM(self.pin, 50)
-        pwm.start(value)  # ici le state sera en pourcentage
+        pwm.start(5)  # ici le state sera en pourcentage
+        pwm.stop()
