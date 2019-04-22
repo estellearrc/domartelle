@@ -8,41 +8,62 @@
     <link href="style.css" rel="stylesheet" />
     <title>LECO</title>
     <script src="node_modules/chart.js/dist/Chart.min.js"></script>
+    <!-- <script src="node_modules/stream/index.js"></script>
+    <script src="node_modules/csv-parser/index.js"></script>
+    <script src="node_modules/generate-object-property/index.js"></script>
+    <script src="node_modules/generate-function/index.js"></script>
+    <script src="node_modules/buffer-from/index.js"></script>
+    <script src="node_modules/buffer-alloc/index.js"></script> -->
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="index.js"></script>
+    <script src="bundle.js"></script>
   </head>
   <body>
     <h1>LECO sensors</h1>
     <div class="well" style="float: left">
       <h3>Temperature</h3>
       <canvas id="myChart"></canvas>
-      <script>
-        var myContext = document.getElementById("myChart");
-        var myChartConfig = {
-          type: "bar",
-          data: {
-            labels: ["Féminin", "Masculin", "Animaux"],
-            datasets: [
-              {
-                label: "Tous les voyageurs",
-                data: [227, 331, 11],
-                backgroundColor: ["green", "green", "green"]
-              },
-              {
-                label: "1ère Classe",
-                data: [107, 115, 2],
-                backgroundColor: ["red", "red", "red"]
-              },
-              {
-                label: "2ème Classe",
-                data: [120, 116, 9],
-                backgroundColor: ["blue", "blue", "blue"]
+      <script type="text/javascript" src="index.js">
+        console.log("HELLOOOOOOOOOOOO")
+        function read(type, n) {
+          const numberOfSeconds = n * 24 * 3600;
+          var dataset = [];
+          const csv = require("csv-parser");
+          const fs = require("fs");
+          const path = "./logs/" + type + "_log.csv";
+
+          fs.createReadStream(path)
+            .pipe(csv())
+            .on("data", row => {
+              date = Number(row.timestamp);
+              if (Date.now() - numberOfSeconds < date) {
+                dataset.push(row);
               }
-            ]
-          }
-        };
-        var myChart = new Chart(myContext, myChartConfig);
+            })
+            .on("end", () => {
+              console.log("CSV file successfully processed");
+            });
+          return dataset;
+        }
+        function display_data_n_days(type, n) {
+          //Affiche la tendance des donnees du type demande sur n jours
+          data = read(type, n);
+          var myContext = document.getElementById("myChart");
+          var myChartConfig = {
+            type: "line",
+            data: {
+              datasets: [
+                {
+                  label: "Temperature",
+                  data: data,
+                  backgroundColor: ["green"]
+                }
+              ]
+            }
+          };
+          new Chart(myContext, myChartConfig);
+        }
+        display_data_n_days("temperature", 5);
       </script>
     </div>
     <div class="well" style="float: right">

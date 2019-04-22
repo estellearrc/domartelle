@@ -38,5 +38,11 @@ The bundled build includes Moment.js in a single file. You should use this versi
 #----------------------------------------------------------
 Read and write CSV files in JS
 
+npm install --save fs
 npm i -s csv-parser
 npm i -s csv-writer
+npm install stream
+
+#-----------------------------------------------------------
+To load modules directly in the browser
+npm install -g browserify
