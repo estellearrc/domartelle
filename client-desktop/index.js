@@ -117,3 +117,6 @@ function save_data(type, value) {
     .writeRecords(data)
     .then(() => console.log("The CSV file was written successfully"));
 }
+
+module.exports = { display_data: display_data };
+module.exports = { display_data_n_days: display_data_n_days };

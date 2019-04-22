@@ -46,3 +46,7 @@ npm install stream
 #-----------------------------------------------------------
 To load modules directly in the browser
 npm install -g browserify
+
+#------------------------------------------------------------
+BrowserFS is an in-browser file system that emulates the Node JS file system API and supports storing and retrieving files from various backends.
+npm install browserfs
