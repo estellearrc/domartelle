@@ -6,9 +6,11 @@ import {
   View,
   Switch,
   Slider,
-  ImageBackground,
-  Button
+  Image,
+  Button,
+  TouchableOpacity
 } from "react-native";
+import Header from "./components/Header";
 
 //To dismiss the Websocket connection warning, apparently useless (cf. https://stackoverflow.com/questions/53638667/unrecognized-websocket-connection-options-agent-permessagedeflate-pfx)
 console.ignoredYellowBox = ["Remote debugger"];
@@ -25,7 +27,7 @@ export default class App extends React.Component {
     super(props);
     /* socket.once('data_to_terminal', this.initializeApp); */
     this.state = {
-      actionneurs: [false, false, false, 0, 0]
+      actionneurs: [false, false, false, false, 0]
     };
   }
 
@@ -35,6 +37,16 @@ export default class App extends React.Component {
     console.log("Coucou Z");
   }
 
+  displayDoorImage(actionneur) {
+    var sourceImage = require("./images/closed-door.png");
+    /* console.log(message.membersWhoLiked); */
+
+    if (actionneur === true) {
+      sourceImage = require("./images/open-door.png");
+    }
+    return <Image style={styles.doorImage} source={sourceImage} />;
+  }
+
   changStateActionneur(copieActionneurs) {
     this.setState({ actionneurs: copieActionneurs });
   }
@@ -42,7 +54,11 @@ export default class App extends React.Component {
   sendInstructionServo(id, copieActionneurs) {
     this.changStateActionneur(copieActionneurs);
     console.log("Sending...");
-    socket.emit("instruction_to_rpi", id, this.state.actionneurs[id - 1]);
+    if (this.state.actionneurs[id - 1] === true) {
+      socket.emit("instruction_to_rpi", id, 7);
+    } else {
+      socket.emit("instruction_to_rpi", id, 5);
+    }
   }
 
   sendInstructionLed(id, copieActionneurs) {
@@ -67,60 +83,68 @@ export default class App extends React.Component {
     console.log("test : " + copieActionneurs[2]);
     return (
       <View style={{ flexDirection: "column", flex: 1 }}>
-        <ImageBackground
+        <Header title="LECO" />
+        <View
           source={require("./images/fond.jpg")}
           style={styles.viewBackGround}
         >
           <View style={styles.container}>
-            <Switch
-              style={styles.switch}
-              value={copieActionneurs[0]}
-              onValueChange={value => {
-                copieActionneurs[0] = value;
-                console.log("coucou : " + copieActionneurs[0]);
-                this.sendInstructionLed(1, copieActionneurs);
-              }}
-            />
+            <View style={styles.switchContainer}>
+              <Text style={styles.title}>Lumière séjour</Text>
+              <Switch
+                style={styles.switch}
+                value={copieActionneurs[0]}
+                onValueChange={value => {
+                  copieActionneurs[0] = value;
+                  console.log("coucou : " + copieActionneurs[0]);
+                  this.sendInstructionLed(1, copieActionneurs);
+                }}
+              />
+            </View>
 
-            <Switch
-              style={styles.switch}
-              value={copieActionneurs[1]}
-              onValueChange={value => {
-                copieActionneurs[1] = value;
-                console.log("coucou : " + copieActionneurs[1]);
-                this.sendInstructionLed(2, copieActionneurs);
-              }}
-            />
-            <Switch
-              style={styles.switch}
-              value={copieActionneurs[2]}
-              onValueChange={value => {
-                copieActionneurs[2] = value;
-                console.log("coucou : " + copieActionneurs[2]);
-                this.sendInstructionLed(3, copieActionneurs);
-              }}
-            />
+            <View style={styles.switchContainer}>
+              <Text style={styles.title}>Lumière cuisine</Text>
+              <Switch
+                style={styles.switch}
+                value={copieActionneurs[1]}
+                onValueChange={value => {
+                  copieActionneurs[1] = value;
+                  console.log("coucou : " + copieActionneurs[1]);
+                  this.sendInstructionLed(2, copieActionneurs);
+                }}
+              />
+            </View>
+            <View style={styles.switchContainer}>
+              <Text style={styles.title}>Lumière entrée</Text>
+              <Switch
+                style={styles.switch}
+                value={copieActionneurs[2]}
+                onValueChange={value => {
+                  copieActionneurs[2] = value;
+                  console.log("coucou : " + copieActionneurs[2]);
+                  this.sendInstructionLed(3, copieActionneurs);
+                }}
+              />
+            </View>
           </View>
           <View style={{ flex: 1, flexDirection: "row" }}>
             <View
-              style={[
-                styles.containerJauge,
-                {
-                  transform: [{ rotateZ: "-90deg" }],
-                  alignSelf: "center"
-                }
-              ]}
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                borderWidth: 0.5,
+                borderColor: "gray"
+              }}
             >
-              <Slider
-                value={copieActionneurs[3]}
-                maximumValue={25}
-                step={5}
-                onValueChange={value => {
-                  copieActionneurs[3] = value;
-                  console.log("coucou : " + copieActionneurs[3]);
+              <TouchableOpacity
+                style={styles.door}
+                onPress={() => {
+                  copieActionneurs[3] = !copieActionneurs[3];
                   this.sendInstructionServo(4, copieActionneurs);
                 }}
-              />
+              >
+                {this.displayDoorImage(copieActionneurs[3])}
+              </TouchableOpacity>
             </View>
             <View
               style={[
@@ -141,7 +165,7 @@ export default class App extends React.Component {
               />
             </View>
           </View>
-        </ImageBackground>
+        </View>
       </View>
     );
   }
@@ -150,19 +174,41 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    marginTop: 50,
-    marginLeft: 30
+    flexDirection: "column"
   },
   switch: {
+    flex: 1,
     width: 80,
     height: 50,
-    marginTop: 30
+    marginBottom: 20,
+    alignSelf: "flex-end"
   },
   containerJauge: {
     flex: 1
   },
   viewBackGround: {
     flex: 1
+  },
+  switchContainer: {
+    flex: 1,
+    borderBottomWidth: 0.5,
+    borderColor: "gray",
+    flexDirection: "row"
+  },
+  title: {
+    flex: 3,
+    fontSize: 25,
+    color: "gray",
+    marginTop: 30,
+    marginLeft: 5
+  },
+  door: {
+    flex: 1
+  },
+  doorImage: {
+    width: 120,
+    height: 180,
+    marginLeft: 20,
+    marginTop: 20
   }
 });
