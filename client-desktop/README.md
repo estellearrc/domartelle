@@ -50,3 +50,19 @@ npm install -g browserify
 #------------------------------------------------------------
 BrowserFS is an in-browser file system that emulates the Node JS file system API and supports storing and retrieving files from various backends.
 npm install browserfs
+
+In the source script that you want to bundle, make sure to expose the functions you want to call via module.exports. In the client script, you can call these exposed functions via <bundle-name>.<func-name>. Here's an example:
+
+My source file src/script.js will have this:
+module.exports = {myFunc: func};
+
+My browserify command will look something like this:
+browserify src/script.js --standalone myBundle > dist/bundle.js
+
+And my client script dist/client.js will load the bundled script
+
+<script src="bundle.js"></script>
+
+and then call the exposed function like this:
+
+<script>myBundle.myFunc();</script>

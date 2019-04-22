@@ -59,7 +59,7 @@ function read(type, n) {
   const numberOfSeconds = n * 24 * 3600;
   var dataset = [];
   const csv = require("csv-parser");
-  const fs = require("fs");
+  const fs = require("browserfs");
   const path = "./logs/" + type + "_log.csv";
 
   fs.createReadStream(path)

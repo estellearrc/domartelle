@@ -17,13 +17,38 @@
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="bundle.js"></script>
-    <script src="index.js"></script>
     <script src="logs/humidity_log.csv"></script>
     <script src="logs/temperature_log.csv"></script>
     <script src="logs/luminosity_log.csv"></script>
     <script src="logs/motion_log.csv"></script>
     <script src="logs/servo_log.csv"></script>
     <script src="logs/led_log.csv"></script>
+    <script
+      type="text/javascript"
+      src="node_modules/browserfs/dist/browserfs.min.js"
+    ></script>
+    <script type="text/javascript">
+      // Installs globals onto window:
+      // * Buffer
+      // * require (monkey-patches if already defined)
+      // * process
+      // You can pass in an arbitrary object if you do not wish to pollute
+      // the global namespace.
+      BrowserFS.install(window);
+      // Configures BrowserFS to use the LocalStorage file system.
+      BrowserFS.configure(
+        {
+          fs: "LocalStorage"
+        },
+        function(e) {
+          if (e) {
+            // An error happened!
+            throw e;
+          }
+          // Otherwise, BrowserFS is ready-to-use!
+        }
+      );
+    </script>
   </head>
   <body>
     <h1>LECO sensors</h1>
