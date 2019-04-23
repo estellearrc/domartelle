@@ -8,7 +8,7 @@
     <link href="style.css" rel="stylesheet" />
     <title>LECO</title>
     <script src="node_modules/chart.js/dist/Chart.min.js"></script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="bundle.js"></script>
@@ -18,32 +18,6 @@
     <script src="logs/motion_log.csv"></script>
     <script src="logs/servo_log.csv"></script>
     <script src="logs/led_log.csv"></script> -->
-    <script
-      type="text/javascript"
-      src="node_modules/browserfs/dist/browserfs.min.js"
-    ></script>
-    <script type="text/javascript">
-      // Installs globals onto window:
-      // * Buffer
-      // * require (monkey-patches if already defined)
-      // * process
-      // You can pass in an arbitrary object if you do not wish to pollute
-      // the global namespace.
-      BrowserFS.install(window);
-      // Configures BrowserFS to use the LocalStorage file system.
-      BrowserFS.configure(
-        {
-          fs: "LocalStorage"
-        },
-        function(e) {
-          if (e) {
-            // An error happened!
-            throw e;
-          }
-          // Otherwise, BrowserFS is ready-to-use!
-        }
-      );
-    </script>
   </head>
   <body>
     <h1>LECO sensors</h1>
@@ -80,10 +54,12 @@
       </script> -->
       <script>
         console.log("HELLOOOOOOOOOOOO");
-        d3.csv("./logs/temperature_log.csv").then(function(data) {
-          //Your code
-          console.log(data);
-        });
+        //bundle.display_data_n_days("temperature", 5);
+        bundle.read("temperature", 5);
+        // d3.csv("./logs/temperature_log.csv").then(function(data) {
+        //   //Your code
+        //   console.log(data);
+        // });
       </script>
     </div>
     <div class="well" style="float: right">

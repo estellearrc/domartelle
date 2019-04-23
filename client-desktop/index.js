@@ -1,4 +1,3 @@
-//display_data_n_days("temperature", 5);
 function display_data(type, room, id, value) {
   //Affiche les donnees unitaires
   if (type === "temperature") {
@@ -56,12 +55,10 @@ function display_data_n_days(type, n) {
   new Chart(myContext, myChartConfig);
 }
 
-function read(type, n) {
+module.exports = function read(type, n) {
   const numberOfSeconds = n * 24 * 3600;
   var dataset = [];
-  //const csv = require("csv-parser");
   var d3 = require("d3");
-  //const fs = require("fs");
   const path = "./logs/" + type + "_log.csv";
 
   d3.csv(path).then(function(data) {
@@ -81,7 +78,7 @@ function read(type, n) {
   //       console.log("CSV file successfully processed");
   //     });
   return dataset;
-}
+};
 
 function save_data(type, value) {
   const path = "./logs/" + type + "_log.csv";
@@ -127,4 +124,3 @@ function save_data(type, value) {
 
 module.exports = { display_data: display_data };
 module.exports = { display_data_n_days: display_data_n_days };
-module.exports = { read: read };
