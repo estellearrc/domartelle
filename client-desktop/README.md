@@ -66,3 +66,14 @@ And my client script dist/client.js will load the bundled script
 and then call the exposed function like this:
 
 <script>myBundle.myFunc();</script>
+
+#--------------------------------------------------------------------
+Local Development
+Browsers enforce strict security permissions to prevent you from reading files out of the local file system. To develop locally, you must run a local web server rather than using file://…. Node’s http-server is recommended. To install:
+
+npm install -g http-server
+To run:
+
+http-server "&"
+
+This will start the server on http://localhost:8080 from the current working directory.

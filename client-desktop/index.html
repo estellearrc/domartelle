@@ -14,15 +14,16 @@
     <script src="node_modules/generate-function/index.js"></script>
     <script src="node_modules/buffer-from/index.js"></script>
     <script src="node_modules/buffer-alloc/index.js"></script> -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="bundle.js"></script>
-    <script src="logs/humidity_log.csv"></script>
+    <!--     <script src="logs/humidity_log.csv"></script>
     <script src="logs/temperature_log.csv"></script>
     <script src="logs/luminosity_log.csv"></script>
     <script src="logs/motion_log.csv"></script>
     <script src="logs/servo_log.csv"></script>
-    <script src="logs/led_log.csv"></script>
+    <script src="logs/led_log.csv"></script> -->
     <script
       type="text/javascript"
       src="node_modules/browserfs/dist/browserfs.min.js"
@@ -85,7 +86,11 @@
       </script> -->
       <script>
         console.log("HELLOOOOOOOOOOOO");
-        bundle.display_data_n_days("temperature", 5);
+        const fs = require("fs");
+        const path = "./logs/temperature_log.csv";
+
+        fs.createReadStream(path);
+        //bundle.display_data_n_days("temperature", 5);
       </script>
     </div>
     <div class="well" style="float: right">

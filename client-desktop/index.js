@@ -1,3 +1,4 @@
+display_data_n_days("temperature", 5);
 function display_data(type, room, id, value) {
   //Affiche les donnees unitaires
   if (type === "temperature") {
@@ -59,7 +60,7 @@ function read(type, n) {
   const numberOfSeconds = n * 24 * 3600;
   var dataset = [];
   const csv = require("csv-parser");
-  const fs = require("browserfs");
+  const fs = require("fs");
   const path = "./logs/" + type + "_log.csv";
 
   fs.createReadStream(path)
@@ -67,6 +68,7 @@ function read(type, n) {
     .on("data", row => {
       date = Number(row.timestamp);
       if (Date.now() - numberOfSeconds < date) {
+        console.log(row);
         dataset.push(row);
       }
     })
