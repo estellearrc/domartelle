@@ -33,6 +33,7 @@ class Servomotor(Actuator):
         self.start = 0
 
     def instruction(self, value):
+        duty = value / 18 + 2
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.pin,GPIO.OUT)
         pwm = GPIO.PWM(self.pin,50)

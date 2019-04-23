@@ -8,41 +8,110 @@
     <link href="style.css" rel="stylesheet" />
     <title>LECO</title>
     <script src="node_modules/chart.js/dist/Chart.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="index.js"></script>
+    <!--     <script src="logs/humidity_log.csv"></script>
+    <script src="logs/temperature_log.csv"></script>
+    <script src="logs/luminosity_log.csv"></script>
+    <script src="logs/motion_log.csv"></script>
+    <script src="logs/servo_log.csv"></script>
+    <script src="logs/led_log.csv"></script> -->
+    <script src="bundle1.js"></script>
   </head>
   <body>
     <h1>LECO sensors</h1>
     <div class="well" style="float: left">
-      <h3>Temperature</h3>
+      <h3 id="singleTemp"></h3>
       <canvas id="myChart"></canvas>
       <script>
-        var myContext = document.getElementById("myChart");
-        var myChartConfig = {
-          type: "bar",
-          data: {
-            labels: ["Féminin", "Masculin", "Animaux"],
-            datasets: [
-              {
-                label: "Tous les voyageurs",
-                data: [227, 331, 11],
-                backgroundColor: ["green", "green", "green"]
-              },
-              {
-                label: "1ère Classe",
-                data: [107, 115, 2],
-                backgroundColor: ["red", "red", "red"]
-              },
-              {
-                label: "2ème Classe",
-                data: [120, 116, 9],
-                backgroundColor: ["blue", "blue", "blue"]
-              }
-            ]
+        display_data_n_days("temperature", 7);
+
+        function displayTime(timeMessage) {
+          var time = Math.floor(Date.now() / 1000);
+          var a = new Date(timeMessage * 1000);
+          var months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+          ];
+          var year = a.getFullYear();
+          var month = months[a.getMonth()];
+          var date = a.getDate();
+          var hour = a.getHours();
+          var min = a.getMinutes();
+
+          if (time - timeMessage >= 31536000) {
+            time = month + " " + year;
+          } else {
+            if (time - timeMessage >= 86400) {
+              time = date + " " + month + " " + hour + ":" + min;
+            } else {
+              time = hour + ":" + min;
+            }
           }
-        };
-        var myChart = new Chart(myContext, myChartConfig);
+          return time;
+        }
+
+        function read(type, n) {
+          const numberOfSeconds = n * 24 * 3600;
+          var dataset = [];
+          var moments = [];
+          var singleTemp = 0;
+          //var d3 = require("d3");
+          const path = "./logs/" + type + "_log.csv";
+          d3.csv(path).then(function(data) {
+            //Your code
+            data.forEach(row => {
+              singleTemp = Number(row.temperature);
+              console.log(singleTemp);
+              date = Number(row.timestamp);
+              if (Math.floor(Date.now() / 1000) - numberOfSeconds <= date) {
+                console.log("in");
+                dataset.push(Number(row.temperature));
+                moments.push(displayTime(date));
+              }
+            });
+          });
+          tuple = [dataset, moments, singleTemp];
+          return tuple;
+        }
+
+        function display_data_n_days(type, n) {
+          //Affiche la tendance des donnees du type demande sur n jours
+          tuple = read(type, n);
+          data = tuple[0];
+          moments = tuple[1];
+          singleTemp = tuple[2];
+          var myContext = document.getElementById("myChart");
+          var myChartConfig = {
+            type: "line",
+            data: {
+              labels: moments,
+              datasets: [
+                {
+                  label: "Temperature in °C",
+                  data: data,
+                  backgroundColor: "rgba(0, 0, 255, 0.2)",
+                  borderColor: "rgba(0, 0, 255, 1)"
+                }
+              ]
+            }
+          };
+          new Chart(myContext, myChartConfig);
+          document.getElementById("singleTemp").innerHTML =
+            "Temperature: " + singleTemp + " °C";
+        }
+        //bundle.read("temperature", 5);
       </script>
     </div>
     <div class="well" style="float: right">
