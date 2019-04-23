@@ -57,7 +57,7 @@ My source file src/script.js will have this:
 module.exports = {myFunc: func};
 
 My browserify command will look something like this:
-browserify src/script.js --standalone myBundle > dist/bundle.js
+browserify index.js --standalone bundle > bundle.js
 
 And my client script dist/client.js will load the bundled script
 
@@ -68,6 +68,8 @@ and then call the exposed function like this:
 <script>myBundle.myFunc();</script>
 
 #--------------------------------------------------------------------
+npm install d3
+
 Local Development
 Browsers enforce strict security permissions to prevent you from reading files out of the local file system. To develop locally, you must run a local web server rather than using file://…. Node’s http-server is recommended. To install:
 

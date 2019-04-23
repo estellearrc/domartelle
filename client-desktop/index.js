@@ -59,22 +59,27 @@ function display_data_n_days(type, n) {
 function read(type, n) {
   const numberOfSeconds = n * 24 * 3600;
   var dataset = [];
-  const csv = require("csv-parser");
-  const fs = require("fs");
+  //const csv = require("csv-parser");
+  var d3 = require("d3");
+  //const fs = require("fs");
   const path = "./logs/" + type + "_log.csv";
 
-  fs.createReadStream(path)
-    .pipe(csv())
-    .on("data", row => {
-      date = Number(row.timestamp);
-      if (Date.now() - numberOfSeconds < date) {
-        console.log(row);
-        dataset.push(row);
-      }
-    })
-    .on("end", () => {
-      console.log("CSV file successfully processed");
-    });
+  d3.csv(path).then(function(data) {
+    //Your code
+    console.log(data);
+  });
+  //   fs.createReadStream(path)
+  //     .pipe(csv())
+  //     .on("data", row => {
+  //       date = Number(row.timestamp);
+  //       if (Date.now() - numberOfSeconds < date) {
+  //         console.log(row);
+  //         dataset.push(row);
+  //       }
+  //     })
+  //     .on("end", () => {
+  //       console.log("CSV file successfully processed");
+  //     });
   return dataset;
 }
 
@@ -122,3 +127,4 @@ function save_data(type, value) {
 
 module.exports = { display_data: display_data };
 module.exports = { display_data_n_days: display_data_n_days };
+module.exports = { read: read };

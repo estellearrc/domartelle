@@ -8,13 +8,7 @@
     <link href="style.css" rel="stylesheet" />
     <title>LECO</title>
     <script src="node_modules/chart.js/dist/Chart.min.js"></script>
-    <!-- <script src="node_modules/stream/index.js"></script>
-    <script src="node_modules/csv-parser/index.js"></script>
-    <script src="node_modules/generate-object-property/index.js"></script>
-    <script src="node_modules/generate-function/index.js"></script>
-    <script src="node_modules/buffer-from/index.js"></script>
-    <script src="node_modules/buffer-alloc/index.js"></script> -->
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="bundle.js"></script>
@@ -86,10 +80,7 @@
       </script> -->
       <script>
         console.log("HELLOOOOOOOOOOOO");
-        const fs = require("fs");
-        const path = "./logs/temperature_log.csv";
-
-        fs.createReadStream(path);
+        read("temperature", 5);
         //bundle.display_data_n_days("temperature", 5);
       </script>
     </div>
