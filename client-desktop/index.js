@@ -1,59 +1,85 @@
-require("node_modules/socket.io-client/dist/socket.io.js");
-
-var socket = io.connect("https{//domartelle-server.herokuapp.com");
-
-socket.on("reconnect", reconnect);
-
-socket.on("disconnect", on_disconnect);
-
-socket.on("data_to_terminal", data_received);
-
-//Keeps the socket open infunctioninitely...
-socket.wait();
-
-function data_received() {
-  save_data(type, value);
-  display_data(type, room, id, value);
-  n = 7;
-  display_data_n_days(type, n);
-}
-
-function reconnect() {
-  print("reconnected to the server");
-  socket.emit("computer Connected");
-}
-
-function on_disconnect() {
-  print("disconnected");
-  socket.emit("computer Disconnected");
-}
-
 function display_data(type, room, id, value) {
   //Affiche les donnees unitaires
+  if (type === "temperature") {
+    console.log(
+      "The temperature in the " + room + " is " + value + " Celsius degrees"
+    );
+  }
+  if (type === "luminosity") {
+    console.log("The luminosity in the " + room + " is " + value + " %");
+  }
+  if (type === "motion") {
+    if (value === 1) {
+      console.log("Someone is in the " + room + "...");
+    } else {
+      console.log("The " + room + " is empty");
+    }
+  }
+  if (type === "humidity") {
+    console.log("The humidity rate in the " + room + " is " + value + " %");
+  }
+  if (type === "led") {
+    if (value === 1) {
+      console.log("The light in the " + room + " is on");
+    } else {
+      console.log("The light in the " + room + " is off");
+    }
+  }
+  if (type === "servo") {
+    if (value === 0) {
+      console.log("The door or the window in the " + room + " is closed");
+    } else {
+      console.log("The door or the window in the " + room + " is open");
+    }
+  } else {
+    console.log("Unknown data type");
+  }
 }
 
 function display_data_n_days(type, n) {
   //Affiche la tendance des donnees du type demande sur n jours
-  const csv = require("csv-parser");
-  const fs = require("fs");
+  data = read(type, n);
+  var myContext = document.getElementById("myChart");
+  var myChartConfig = {
+    type: "line",
+    data: {
+      datasets: [
+        {
+          label: "Temperature",
+          data: data,
+          backgroundColor: ["green"]
+        }
+      ]
+    }
+  };
+  new Chart(myContext, myChartConfig);
+}
+
+module.exports = function read(type, n) {
+  const numberOfSeconds = n * 24 * 3600;
+  var dataset = [];
+  var d3 = require("d3");
   const path = "./logs/" + type + "_log.csv";
 
-  fs.createReadStream(path)
-    .pipe(csv())
-    .on("data", row => {
-      console.log(row);
-    })
-    .on("end", () => {
-      console.log("CSV file successfully processed");
+  d3.csv(path).then(function(data) {
+    //Your code
+    data.forEach(row => {
+      date = Number(row.timestamp);
+      if (Date.now() - numberOfSeconds < date) {
+        dataset.push(row);
+      }
     });
-}
+    console.log(dataset);
+  });
+  return dataset;
+};
 
 function save_data(type, value) {
   const path = "./logs/" + type + "_log.csv";
   //Sauvegarde les donnees dans un fichier csv
-  const createCsvWriter = require("csv-writer").createObjectCsvWriter(
-    (append = true)
-  );
+  const createCsvWriter = require("csv-writer").createObjectCsvWriter({
+    append: true
+  });
   const csvWriter = createCsvWriter({
     path: path,
     header: [
@@ -89,3 +115,6 @@ function save_data(type, value) {
     .writeRecords(data)
     .then(() => console.log("The CSV file was written successfully"));
 }
+
+module.exports = { display_data: display_data };
+module.exports = { display_data_n_days: display_data_n_days };

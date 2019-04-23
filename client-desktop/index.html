@@ -8,16 +8,24 @@
     <link href="style.css" rel="stylesheet" />
     <title>LECO</title>
     <script src="node_modules/chart.js/dist/Chart.min.js"></script>
+    <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="index.js"></script>
+    <script src="bundle.js"></script>
+    <!--     <script src="logs/humidity_log.csv"></script>
+    <script src="logs/temperature_log.csv"></script>
+    <script src="logs/luminosity_log.csv"></script>
+    <script src="logs/motion_log.csv"></script>
+    <script src="logs/servo_log.csv"></script>
+    <script src="logs/led_log.csv"></script> -->
   </head>
   <body>
     <h1>LECO sensors</h1>
     <div class="well" style="float: left">
       <h3>Temperature</h3>
       <canvas id="myChart"></canvas>
-      <script>
+      <!-- <script>
+        console.log("hello");
         var myContext = document.getElementById("myChart");
         var myChartConfig = {
           type: "bar",
@@ -43,6 +51,15 @@
           }
         };
         var myChart = new Chart(myContext, myChartConfig);
+      </script> -->
+      <script>
+        console.log("HELLOOOOOOOOOOOO");
+        //bundle.display_data_n_days("temperature", 5);
+        bundle.read("temperature", 5);
+        // d3.csv("./logs/temperature_log.csv").then(function(data) {
+        //   //Your code
+        //   console.log(data);
+        // });
       </script>
     </div>
     <div class="well" style="float: right">
