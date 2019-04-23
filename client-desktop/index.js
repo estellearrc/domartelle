@@ -63,20 +63,14 @@ module.exports = function read(type, n) {
 
   d3.csv(path).then(function(data) {
     //Your code
-    console.log(data);
+    data.forEach(row => {
+      date = Number(row.timestamp);
+      if (Date.now() - numberOfSeconds < date) {
+        dataset.push(row);
+      }
+    });
+    console.log(dataset);
   });
-  //   fs.createReadStream(path)
-  //     .pipe(csv())
-  //     .on("data", row => {
-  //       date = Number(row.timestamp);
-  //       if (Date.now() - numberOfSeconds < date) {
-  //         console.log(row);
-  //         dataset.push(row);
-  //       }
-  //     })
-  //     .on("end", () => {
-  //       console.log("CSV file successfully processed");
-  //     });
   return dataset;
 };
 
