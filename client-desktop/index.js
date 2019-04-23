@@ -1,4 +1,4 @@
-display_data_n_days("temperature", 5);
+//display_data_n_days("temperature", 5);
 function display_data(type, room, id, value) {
   //Affiche les donnees unitaires
   if (type === "temperature") {

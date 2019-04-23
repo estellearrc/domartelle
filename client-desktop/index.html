@@ -8,7 +8,7 @@
     <link href="style.css" rel="stylesheet" />
     <title>LECO</title>
     <script src="node_modules/chart.js/dist/Chart.min.js"></script>
-    <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="bundle.js"></script>
@@ -80,8 +80,10 @@
       </script> -->
       <script>
         console.log("HELLOOOOOOOOOOOO");
-        read("temperature", 5);
-        //bundle.display_data_n_days("temperature", 5);
+        d3.csv("./logs/temperature_log.csv").then(function(data) {
+          //Your code
+          console.log(data);
+        });
       </script>
     </div>
     <div class="well" style="float: right">
