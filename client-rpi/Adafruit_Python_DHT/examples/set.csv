@@ -1,9 +1,9 @@
 led,living room,1,0
 led,kitchen,2,0
-led,entrance,3,1
-servo,entrance,4,5
-servo,living room,5,0
-temperature,living room,1,14
-humidity,bathroom,2,32
-luminosity,bedroom,3,39
-motion,study,4,1
+led,entrance,3,0
+servo,entrance,4,0
+servo,living room,5,2.00
+temperature,living room,1,30
+humidity,bathroom,2,25
+luminosity,bedroom,3,3
+motion,study,4,0

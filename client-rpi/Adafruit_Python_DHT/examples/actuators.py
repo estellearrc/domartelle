@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import RPi.GPIO as GPIO
+import time as time
 
 
 class Actuator:
@@ -20,20 +21,36 @@ class Led(Actuator):
 
     def instruction(self, value):
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(self.pin, GPIO.OUT)
-        GPIO.output(self.pin, value)
+        GPIO.setup(self.pin,GPIO.OUT)
+        GPIO.output(self.pin,int(value))
+        print(int(value))
 
 
 class Servomotor(Actuator):
     def __init__(self, pin, room, value):
         Actuator.__init__(self, pin, room, value)
         self.type = "servo"
+        self.start = 0
 
     def instruction(self, value):
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(self.pin, GPIO.OUT)
-        pwm = GPIO.PWM(self.pin, 50)
-        pwm.start(value)  # ici le state sera en pourcentage
+        GPIO.setup(self.pin,GPIO.OUT)
+        pwm = GPIO.PWM(self.pin,50)
+        position = self.start
+        pwm.start(self.start) 
+        if position <value:
+                while position < value:  
+                        pwm.ChangeDutyCycle(float(position))
+                        position = position + 0.1
+                        time.sleep(0.1)
+             
+        else: 
+                while position > value:  
+                        pwm.ChangeDutyCycle(float(position))
+                        position = position - 0.1
+                        time.sleep(0.1)
+                
+        self.start = value
         pwm.stop()
         print(value)
         print("done")
