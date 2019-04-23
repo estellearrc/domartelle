@@ -1,0 +1,34 @@
+{
+  "actuators": [
+    {
+      "type": "led",
+      "room": "livingRoom",
+      "id": 1,
+      "value": false
+    },
+    {
+      "type": "led",
+      "room": "kitchen",
+      "id": 2,
+      "value": false
+    },
+    {
+      "type": "led",
+      "room": "entrance",
+      "id": 3,
+      "value": false
+    },
+    {
+      "type": "servo",
+      "room": "Entrance",
+      "id": 4,
+      "value": false
+    },
+    {
+      "type": "servo",
+      "room": "livingRoom",
+      "id": 5,
+      "value": 0
+    }
+  ]
+}

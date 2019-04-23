@@ -25,17 +25,49 @@ const socket = SocketIOClient("https://domartelle-server.herokuapp.com", {});
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    /* socket.once('data_to_terminal', this.initializeApp); */
+    socket.emit("launch_app", "set");
+
     this.state = {
       actionneurs: [false, false, false, false, 0]
     };
+    socket.on("data_to_terminal", this.initializeApp);
   }
 
-  initializeApp(type, room, id, value) {
-    /* for(var i =0;i< this.state.actionneurs.length;i++){
-     */
+  initializeApp = (type, room, id, value) => {
     console.log("Coucou Z");
-  }
+    var copieTemporaireActionneurs = this.state.actionneurs;
+    console.log("id : " + id);
+    console.log("length tab : " + this.state.actionneurs.length);
+    if (type === "led" || type === "servo") {
+      console.log("INNNNNN");
+      if (value === 1 && type == "led") {
+        copieTemporaireActionneurs[id - 1] = true;
+        console.log("true");
+      } else {
+        if (value === 0 && type === "led") {
+          copieTemporaireActionneurs[id - 1] = false;
+          console.log("false");
+        } else {
+          if (id === 4) {
+            if (value === 7) {
+              copieTemporaireActionneurs[id - 1] = true;
+            }
+            copieTemporaireActionneurs[id - 1] = false;
+          } else {
+            copieTemporaireActionneurs[id - 1] = Math.round(
+              (value - 2) / (10 / 180)
+            );
+          }
+
+          console.log(value);
+        }
+      }
+      console.log("salut : " + this.state.actionneurs);
+      this.setState({
+        actionneurs: copieTemporaireActionneurs
+      });
+    }
+  };
 
   displayDoorImage(actionneur) {
     var sourceImage = require("./images/closed-door.png");
@@ -51,17 +83,28 @@ export default class App extends React.Component {
     this.setState({ actionneurs: copieActionneurs });
   }
 
-  sendInstructionServo(id, copieActionneurs) {
+  sendInstructionDoor(id, copieActionneurs) {
     this.changStateActionneur(copieActionneurs);
     console.log("Sending...");
     if (this.state.actionneurs[id - 1] === true) {
       socket.emit("instruction_to_rpi", id, 7);
+      console.log(id);
+      console.log("OPENED");
     } else {
-      socket.emit("instruction_to_rpi", id, 5);
+      socket.emit("instruction_to_rpi", id, 2);
+      console.log(id);
+      console.log("CLOSED");
     }
+    console.log("Didn't crash");
   }
 
-  sendInstructionLed(id, copieActionneurs) {
+  sendInstructionCurtains(id, copieActionneurs) {
+    const value = (2 + (10 / 180) * copieActionneurs[id - 1]).toFixed(2);
+    this.changStateActionneur(copieActionneurs);
+    socket.emit("instruction_to_rpi", id, value);
+  }
+
+  sendInstructionLights(id, copieActionneurs) {
     this.changStateActionneur(copieActionneurs);
     console.log("Sending...");
     if (this.state.actionneurs[id - 1] === false) {
@@ -79,6 +122,7 @@ export default class App extends React.Component {
 
   render() {
     var copieActionneurs = this.state.actionneurs;
+
     console.log("start" + copieActionneurs[0]);
     console.log("test : " + copieActionneurs[2]);
     return (
@@ -97,7 +141,7 @@ export default class App extends React.Component {
                 onValueChange={value => {
                   copieActionneurs[0] = value;
                   console.log("coucou : " + copieActionneurs[0]);
-                  this.sendInstructionLed(1, copieActionneurs);
+                  this.sendInstructionLights(1, copieActionneurs);
                 }}
               />
             </View>
@@ -110,7 +154,7 @@ export default class App extends React.Component {
                 onValueChange={value => {
                   copieActionneurs[1] = value;
                   console.log("coucou : " + copieActionneurs[1]);
-                  this.sendInstructionLed(2, copieActionneurs);
+                  this.sendInstructionLights(2, copieActionneurs);
                 }}
               />
             </View>
@@ -122,7 +166,7 @@ export default class App extends React.Component {
                 onValueChange={value => {
                   copieActionneurs[2] = value;
                   console.log("coucou : " + copieActionneurs[2]);
-                  this.sendInstructionLed(3, copieActionneurs);
+                  this.sendInstructionLights(3, copieActionneurs);
                 }}
               />
             </View>
@@ -140,29 +184,41 @@ export default class App extends React.Component {
                 style={styles.door}
                 onPress={() => {
                   copieActionneurs[3] = !copieActionneurs[3];
-                  this.sendInstructionServo(4, copieActionneurs);
+                  console.log("porte : " + copieActionneurs[3]);
+                  this.sendInstructionDoor(4, copieActionneurs);
                 }}
               >
                 {this.displayDoorImage(copieActionneurs[3])}
               </TouchableOpacity>
             </View>
-            <View
-              style={[
-                styles.containerJauge,
-                {
-                  transform: [{ rotateZ: "-90deg" }],
-                  alignSelf: "center"
-                }
-              ]}
-            >
-              <Slider
-                value={copieActionneurs[4]}
-                maximumValue={75}
-                step={10}
-                onValueChange={value => {
-                  copieActionneurs[4] = value;
+            <View style={styles.containerJauge}>
+              <View
+                style={{
+                  flex: 4,
+                  transform: [{ rotateZ: "-90deg" }]
                 }}
-              />
+              >
+                <Slider
+                  style={{ marginTop: 90 }}
+                  value={copieActionneurs[4]}
+                  maximumValue={180}
+                  step={10}
+                  onValueChange={value => {
+                    copieActionneurs[4] = value;
+                    console.log(copieActionneurs[4]);
+                    this.sendInstructionCurtains(5, copieActionneurs);
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  alignSelf: "center",
+                  marginTop: 20
+                }}
+              >
+                <Text> {`${copieActionneurs[4]}°`}</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -184,7 +240,8 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end"
   },
   containerJauge: {
-    flex: 1
+    flex: 1,
+    flexDirection: "column"
   },
   viewBackGround: {
     flex: 1
@@ -206,9 +263,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   doorImage: {
-    width: 120,
-    height: 180,
+    width: 90,
+    height: 120,
     marginLeft: 20,
-    marginTop: 20
+    marginTop: 50
   }
 });
