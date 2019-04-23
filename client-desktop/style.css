@@ -36,7 +36,9 @@ h1 {
 }
 
 h3 {
-  text-align: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: black;
+}
+canvas {
+  float: right;
 }
