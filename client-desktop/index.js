@@ -112,8 +112,8 @@ function get_chart_options(type, room) {
       idCurrentData: "currentTemp",
       steppedLine: false,
       chartType: "line",
-      backgroundColor: "rgba(0, 0, 255, 0.2)",
-      borderColor: "rgba(0, 0, 255, 1)",
+      backgroundColor: suffleColor(0.1), //"rgba(0, 0, 255, 0.2)",
+      borderColor: suffleColor(1), //"rgba(0, 0, 255, 1)",
       label: room,
       beginHeader: "Temperature: ",
       endHeader: " °C"
@@ -126,11 +126,11 @@ function get_chart_options(type, room) {
         idCurrentData: "currentLum",
         steppedLine: false,
         chartType: "line",
-        backgroundColor: "rgba(127, 191, 63, 0.2)",
-        borderColor: "rgba(127, 191, 63, 1)",
+        backgroundColor: suffleColor(0.1), //"rgba(127, 191, 63, 0.2)",
+        borderColor: suffleColor(1), //"rgba(127, 191, 63, 1)",
         label: room,
         beginHeader: "Luminosity: ",
-        endHeader: " %"
+        endHeader: " lux"
       };
       return options;
     } else {
@@ -140,8 +140,8 @@ function get_chart_options(type, room) {
           idCurrentData: "currentHum",
           steppedLine: false,
           chartType: "line",
-          backgroundColor: "rgba(127, 63, 191, 0.2)",
-          borderColor: "rgba(127, 63, 191, 1)",
+          backgroundColor: suffleColor(0.1), //"rgba(127, 63, 191, 0.2)",
+          borderColor: suffleColor(1), //"rgba(127, 63, 191, 1)",
           label: room,
           beginHeader: "Humidity: ",
           endHeader: " %"
@@ -153,8 +153,8 @@ function get_chart_options(type, room) {
           idCurrentData: "currentMo",
           steppedLine: true,
           chartType: "line",
-          backgroundColor: "rgba(255, 215, 0, 0.2)",
-          borderColor: "rgba(255, 215, 0, 1)",
+          backgroundColor: suffleColor(0.1), //"rgba(255, 215, 0, 0.2)",
+          borderColor: suffleColor(1), //"rgba(255, 215, 0, 1)",
           label: room,
           beginHeader: "Motion: ",
           endHeader: ""
@@ -172,4 +172,15 @@ function submitInput(id, type) {
       read(type, nbDays);
     }
   });
+}
+
+function suffleColor(a) {
+  r = getRandomInt(255);
+  g = getRandomInt(255);
+  b = getRandomInt(255);
+  return "rgba(" + r + "," + g + "," + b + "," + a + ")";
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
 }
