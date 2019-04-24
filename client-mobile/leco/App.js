@@ -54,8 +54,8 @@ export default class App extends React.Component {
             }
             copieTemporaireActionneurs[id - 1] = false;
           } else {
-            copieTemporaireActionneurs[id - 1] = Math.round(
-              (value - 2) / (10 / 180)
+            copieTemporaireActionneurs[id - 1] = value /* Math.round(
+              (value - 2) / (10 / 180) */
             );
           }
 
@@ -87,11 +87,11 @@ export default class App extends React.Component {
     this.changStateActionneur(copieActionneurs);
     console.log("Sending...");
     if (this.state.actionneurs[id - 1] === true) {
-      socket.emit("instruction_to_rpi", id, 7);
+      socket.emit("instruction_to_rpi", id, 90);
       console.log(id);
       console.log("OPENED");
     } else {
-      socket.emit("instruction_to_rpi", id, 2);
+      socket.emit("instruction_to_rpi", id, 0);
       console.log(id);
       console.log("CLOSED");
     }
@@ -99,9 +99,9 @@ export default class App extends React.Component {
   }
 
   sendInstructionCurtains(id, copieActionneurs) {
-    const value = (2 + (10 / 180) * copieActionneurs[id - 1]).toFixed(2);
+    /* const value = (2 + (10 / 180) * copieActionneurs[id - 1]).toFixed(2); */
     this.changStateActionneur(copieActionneurs);
-    socket.emit("instruction_to_rpi", id, value);
+    socket.emit("instruction_to_rpi", id, this.state.actionneurs[id - 1]);
   }
 
   sendInstructionLights(id, copieActionneurs) {
