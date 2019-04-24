@@ -17,30 +17,102 @@
     <h1>LECO sensors</h1>
     <div class="well" style="float: left">
       <h3 id="currentTemp"></h3>
+      <label
+        class="col-sm-7 control-label"
+        style="
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-weight: normal"
+        >Number of days to display:</label
+      >
+      <div class="col-sm-1">
+        <input
+          type="number"
+          id="nbDaysTemp"
+          min="1"
+          step="1"
+          value="1"
+          style="width: 35pt; height: 15pt"
+          oninput="submitInput('nbDaysTemp','temperature')"
+        />
+      </div>
       <canvas id="temperature"></canvas>
       <script>
-        read("temperature", 8);
+        read("temperature", 1);
       </script>
     </div>
     <div class="well" style="float: right">
       <h3 id="currentHum"></h3>
+      <label
+        class="col-sm-7 control-label"
+        style="
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-weight: normal"
+        >Number of days to display:</label
+      >
+      <div class="col-sm-1">
+        <input
+          type="number"
+          id="nbDaysHum"
+          min="1"
+          step="1"
+          value="1"
+          style="width: 35pt; height: 15pt"
+          oninput="submitInput('nbDaysHum','humidity')"
+        />
+      </div>
       <canvas id="humidity"></canvas>
       <script>
-        read("humidity", 8);
+        read("humidity", 1);
       </script>
     </div>
     <div class="well" style="float: left">
       <h3 id="currentLum"></h3>
+      <label
+        class="col-sm-7 control-label"
+        style="
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-weight: normal"
+        >Number of days to display:</label
+      >
+      <div class="col-sm-1">
+        <input
+          type="number"
+          id="nbDaysLum"
+          min="1"
+          step="1"
+          value="1"
+          style="width: 35pt; height: 15pt"
+          oninput="submitInput('nbDaysLum','luminosity')"
+        />
+      </div>
       <canvas id="luminosity"></canvas>
       <script>
-        read("luminosity", 8);
+        read("luminosity", 1);
       </script>
     </div>
     <div class="well" style="float: right">
       <h3 id="currentMo"></h3>
+      <label
+        class="col-sm-7 control-label"
+        style="
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-weight: normal"
+        >Number of days to display:</label
+      >
+      <div class="col-sm-1">
+        <input
+          type="number"
+          id="nbDaysMo"
+          min="1"
+          step="1"
+          value="1"
+          style="width: 35pt; height: 15pt"
+          oninput="submitInput('nbDaysMo','motion')"
+        />
+      </div>
       <canvas id="motion"></canvas>
       <script>
-        read("motion", 8);
+        read("motion", 1);
       </script>
     </div>
   </body>

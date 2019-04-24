@@ -56,7 +56,6 @@ function read(type, n) {
       }
     });
     tuple = [dataset, moments, currentData];
-    console.log(tuple);
     display_data_n_days(tuple, type);
   });
 }
@@ -83,6 +82,13 @@ function display_data_n_days(tuple, type) {
     }
   };
   new Chart(myContext, myChartConfig);
+  if (type === "motion") {
+    if (currentData === "1") {
+      currentData = "true";
+    } else {
+      currentData = "false";
+    }
+  }
   document.getElementById(options.idCurrentData).innerHTML =
     options.beginHeader + currentData + options.endHeader;
 }
@@ -130,7 +136,7 @@ function get_chart_options(type) {
         options = {
           idChart: type,
           idCurrentData: "currentMo",
-          chartType: "scatter",
+          chartType: "line",
           backgroundColor: "rgba(255, 215, 0, 0.2)",
           borderColor: "rgba(255, 215, 0, 1)",
           label: "Motion",
@@ -141,4 +147,13 @@ function get_chart_options(type) {
       }
     }
   }
+}
+
+function submitInput(id, type) {
+  document.getElementById(id).addEventListener("input", e => {
+    const nbDays = e.target.value;
+    if (nbDays > 0) {
+      read(type, nbDays);
+    }
+  });
 }

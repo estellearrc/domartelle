@@ -23,10 +23,8 @@ def authenticated(*args):
 	
 def data_received(type,room,id,value):
     """Recoit les donnees provenant du cloud Heroku, les sauvegarde en local et les affiche"""
-    save_data(type,value)
+    save_data(type,room,value)
     display_data(type,room,id,value)
-    #n = 7
-    #display_data_n_days(type, n)
     
 def display_data(type,room,id,value):
     """Affiche les donnees unitaires"""
@@ -54,18 +52,15 @@ def display_data(type,room,id,value):
     else:
         print("Unknown data type")
 
-def display_data_n_days(type, n):
-    """Affiche la tendance des donnees du type demande sur n jours"""
-
-def save_data(type,value):
+def save_data(type,room,value):
     """Sauvegarde les donnees dans un fichier csv """
-    path = str(type) + '_log.csv'
+    path = 'logs/'+ str(type) + '_log.csv'
     with open(path,'ab') as f:
         writer = csv.writer(f,delimiter=',') 
         timestamp = int(time.time())
         print(timestamp)
         print(value)
-        writer.writerow([timestamp,value])
+        writer.writerow([timestamp,value,room])
         f.close()
 
 def main():
