@@ -58,8 +58,6 @@ def save_data(type,room,value):
     with open(path,'ab') as f:
         writer = csv.writer(f,delimiter=',') 
         timestamp = int(time.time())
-        print(timestamp)
-        print(value)
         writer.writerow([timestamp,value,room])
         f.close()
 

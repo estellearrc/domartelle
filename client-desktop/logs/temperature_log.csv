@@ -1,4 +1,4 @@
-timestamp,value
+timestamp,value,room
 1555492546,13,garage
 1555492556,5,garage
 1555492566,14,garage
@@ -9,3 +9,27 @@ timestamp,value
 1555492616,4,garage
 1555492626,11,garage
 1555492688,23,bedroom
+1556130601,25,living room
+1556130612,25,living room
+1556130624,25,living room
+1556130635,25,living room
+1556130647,25,living room
+1556130659,25,living room
+1556130670,25,living room
+1556130682,25,living room
+1556130694,25,living room
+1556130705,25,living room
+1556130727,15,living room
+1556130730,25,living room
+1556130731,25,living room
+1556130737,25,living room
+1556130744,25,living room
+1556130747,25,living room
+1556130748,25,living room
+1556130972,25,living room
+1556130979,25,living room
+1556130986,25,living room
+1556130987,25,living room
+1556130989,25,living room
+1556130989,25,living room
+1556130997,25,living room

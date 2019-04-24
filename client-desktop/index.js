@@ -20,6 +20,7 @@ function displayTime(timeData) {
   var date = a.getDate();
   var hour = a.getHours();
   var min = a.getMinutes();
+  var sec = a.getSeconds();
 
   if (time - timeData >= 31536000) {
     //si c'est plus long qu'un an
@@ -31,9 +32,9 @@ function displayTime(timeData) {
     }
     if (time - timeData >= 86400) {
       //si c'est plus long qu'un jour
-      time = date + " " + month + " " + hour + ":" + min;
+      time = date + " " + month + " " + hour + ":" + min + ":" + sec;
     } else {
-      time = hour + ":" + min;
+      time = hour + ":" + min + ":" + sec;
     }
   }
   return time;
@@ -41,7 +42,8 @@ function displayTime(timeData) {
 
 function read(type, n) {
   const numberOfSeconds = n * 24 * 3600;
-  var dataset = [];
+  var datasets = [];
+  var rooms = [];
   var moments = [];
   var currentData = 0;
   //var d3 = require("d3");
@@ -50,35 +52,45 @@ function read(type, n) {
     data.forEach(row => {
       currentData = row.value;
       date = Number(row.timestamp);
+      room = row.room;
+      alreadyExistRoom = rooms.find(r => r === room);
+
+      if (!alreadyExistRoom) {
+        //si la pièce n'a pas encore été rencontrée dans les données
+        rooms.push(room);
+        options = get_chart_options(type, room);
+        datasets.push({
+          label: options.label,
+          steppedLine: options.steppedLine,
+          data: [],
+          backgroundColor: options.backgroundColor,
+          borderColor: options.borderColor
+        });
+      }
+
       if (Math.floor(Date.now() / 1000) - numberOfSeconds <= date) {
-        dataset.push(Number(row.value));
+        rightDataset = datasets.find(d => d.label === room);
+        rightDataset.data.push({ x: displayTime(date), y: Number(row.value) });
         moments.push(displayTime(date));
       }
     });
-    tuple = [dataset, moments, currentData];
+    tuple = [datasets, moments, currentData];
     display_data_n_days(tuple, type);
   });
 }
 
 function display_data_n_days(tuple, type) {
   //Affiche la tendance des donnees du type demande sur n jours
-  data = tuple[0];
+  datasets = tuple[0];
   moments = tuple[1];
   currentData = tuple[2];
-  options = get_chart_options(type);
+  options = get_chart_options(type, room);
   var myContext = document.getElementById(options.idChart);
   var myChartConfig = {
     type: options.chartType,
     data: {
       labels: moments,
-      datasets: [
-        {
-          label: options.label,
-          data: data,
-          backgroundColor: options.backgroundColor,
-          borderColor: options.borderColor
-        }
-      ]
+      datasets: datasets
     }
   };
   new Chart(myContext, myChartConfig);
@@ -93,15 +105,16 @@ function display_data_n_days(tuple, type) {
     options.beginHeader + currentData + options.endHeader;
 }
 
-function get_chart_options(type) {
+function get_chart_options(type, room) {
   if (type === "temperature") {
     options = {
       idChart: type,
       idCurrentData: "currentTemp",
+      steppedLine: false,
       chartType: "line",
       backgroundColor: "rgba(0, 0, 255, 0.2)",
       borderColor: "rgba(0, 0, 255, 1)",
-      label: "Temperature in °C",
+      label: room,
       beginHeader: "Temperature: ",
       endHeader: " °C"
     };
@@ -111,10 +124,11 @@ function get_chart_options(type) {
       options = {
         idChart: type,
         idCurrentData: "currentLum",
+        steppedLine: false,
         chartType: "line",
         backgroundColor: "rgba(127, 191, 63, 0.2)",
         borderColor: "rgba(127, 191, 63, 1)",
-        label: "Luminosity in %",
+        label: room,
         beginHeader: "Luminosity: ",
         endHeader: " %"
       };
@@ -124,10 +138,11 @@ function get_chart_options(type) {
         options = {
           idChart: type,
           idCurrentData: "currentHum",
+          steppedLine: false,
           chartType: "line",
           backgroundColor: "rgba(127, 63, 191, 0.2)",
           borderColor: "rgba(127, 63, 191, 1)",
-          label: "Humidity in %",
+          label: room,
           beginHeader: "Humidity: ",
           endHeader: " %"
         };
@@ -136,10 +151,11 @@ function get_chart_options(type) {
         options = {
           idChart: type,
           idCurrentData: "currentMo",
+          steppedLine: true,
           chartType: "line",
           backgroundColor: "rgba(255, 215, 0, 0.2)",
           borderColor: "rgba(255, 215, 0, 1)",
-          label: "Motion",
+          label: room,
           beginHeader: "Motion: ",
           endHeader: ""
         };
