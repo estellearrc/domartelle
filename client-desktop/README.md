@@ -71,3 +71,6 @@ To run:
 http-server "&"
 
 This will start the server on http://localhost:8080 from the current working directory.
+
+Liste déroulante pour choisir la pièce
+Input numérique pour avoir le nombre de jours de la plage à afficher
