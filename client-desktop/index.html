@@ -16,103 +16,31 @@
   <body>
     <h1>LECO sensors</h1>
     <div class="well" style="float: left">
-      <h3 id="singleTemp"></h3>
-      <canvas id="myChart"></canvas>
+      <h3 id="currentTemp"></h3>
+      <canvas id="temperature"></canvas>
       <script>
         read("temperature", 8);
       </script>
     </div>
     <div class="well" style="float: right">
-      <h3>Humidity</h3>
-      <canvas id="myChart2"></canvas>
+      <h3 id="currentHum"></h3>
+      <canvas id="humidity"></canvas>
       <script>
-        var myContext = document.getElementById("myChart2");
-        var myChartConfig = {
-          type: "bar",
-          data: {
-            labels: ["Féminin", "Masculin", "Animaux"],
-            datasets: [
-              {
-                label: "Tous les voyageurs",
-                data: [227, 331, 11],
-                backgroundColor: ["green", "green", "green"]
-              },
-              {
-                label: "1ère Classe",
-                data: [107, 115, 2],
-                backgroundColor: ["red", "red", "red"]
-              },
-              {
-                label: "2ème Classe",
-                data: [120, 116, 9],
-                backgroundColor: ["blue", "blue", "blue"]
-              }
-            ]
-          }
-        };
-        var myChart = new Chart(myContext, myChartConfig);
+        read("humidity", 8);
       </script>
     </div>
     <div class="well" style="float: left">
-      <h3>Luminosity</h3>
-      <canvas id="myChart4"></canvas>
+      <h3 id="currentLum"></h3>
+      <canvas id="luminosity"></canvas>
       <script>
-        var myContext = document.getElementById("myChart4");
-        var myChartConfig = {
-          type: "bar",
-          data: {
-            labels: ["Féminin", "Masculin", "Animaux"],
-            datasets: [
-              {
-                label: "Tous les voyageurs",
-                data: [227, 331, 11],
-                backgroundColor: ["green", "green", "green"]
-              },
-              {
-                label: "1ère Classe",
-                data: [107, 115, 2],
-                backgroundColor: ["red", "red", "red"]
-              },
-              {
-                label: "2ème Classe",
-                data: [120, 116, 9],
-                backgroundColor: ["blue", "blue", "blue"]
-              }
-            ]
-          }
-        };
-        var myChart = new Chart(myContext, myChartConfig);
+        read("luminosity", 8);
       </script>
     </div>
     <div class="well" style="float: right">
-      <h3>Motion</h3>
-      <canvas id="myChart3"></canvas>
+      <h3 id="currentMo"></h3>
+      <canvas id="motion"></canvas>
       <script>
-        var myContext = document.getElementById("myChart3");
-        var myChartConfig = {
-          type: "bar",
-          data: {
-            labels: ["Féminin", "Masculin", "Animaux"],
-            datasets: [
-              {
-                label: "Tous les voyageurs",
-                data: [227, 331, 11],
-                backgroundColor: ["green", "green", "green"]
-              },
-              {
-                label: "1ère Classe",
-                data: [107, 115, 2],
-                backgroundColor: ["red", "red", "red"]
-              },
-              {
-                label: "2ème Classe",
-                data: [120, 116, 9],
-                backgroundColor: ["blue", "blue", "blue"]
-              }
-            ]
-          }
-        };
-        var myChart = new Chart(myContext, myChartConfig);
+        read("motion", 8);
       </script>
     </div>
   </body>
