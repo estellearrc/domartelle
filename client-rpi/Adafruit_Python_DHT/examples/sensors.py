@@ -3,6 +3,8 @@ import RPi.GPIO as GPIO
 import random
 import sys
 import Adafruit_DHT
+import smbus
+import time
 
 class Sensor:
     id = 0
@@ -82,56 +84,32 @@ class LuminositySensor(Sensor) :
             self.value = random.randint(0,100)
             return self.value
         else:
-            GPIO.setmode(GPIO.BOARD)
-            GPIO.setwarnings(False)
+            # Get I2C bus
+            bus = smbus.SMBus(1)
 
-            #fonction lisant les donnees SPI de la puce MCP3008, parmi 8 entrees, de 0 a 7
-            def readadc(adcnum, clockpin, mosipin, misopin, cspin):
-                if ((adcnum > 7) or (adcnum < 0)):
-                    return -1
-                GPIO.output(cspin, True)
-                GPIO.output(clockpin, False)  # start clock low
-                GPIO.output(cspin, False)    # bring CS low
-                commandout = adcnum
-                commandout |= 0x18  # start bit + single-ended bit
-                commandout <<= 3    # we only need to send 5 bits here
-                for i in range(5):
-                    if (commandout & 0x80):
-                        GPIO.output(mosipin, True)
-                    else:
-                        GPIO.output(mosipin, False)
-                    commandout <<= 1
-                    GPIO.output(clockpin, True)
-                    GPIO.output(clockpin, False)
-                adcout = 0
-                # read in one empty bit, one null bit and 10 ADC bits
-                for i in range(12):
-                    GPIO.output(clockpin, True)
-                    GPIO.output(clockpin, False)
-                    adcout <<= 1
-                    if (GPIO.input(misopin)):
-                        adcout |= 0x1
-                GPIO.output(cspin, True)
-                adcout /= 2    # first bit is 'null' so drop it
-                return adcout
+            # TSL2561 address, 0x39(57)
+            # Select control register, 0x00(00) with command register, 0x80(128)
+            #		0x03(03)	Power ON mode
+            bus.write_byte_data(0x39, 0x00 | 0x80, 0x03)
+            # TSL2561 address, 0x39(57)
+            # Select timing register, 0x01(01) with command register, 0x80(128)
+            #		0x02(02)	Nominal integration time = 402ms
+            bus.write_byte_data(0x39, 0x01 | 0x80, 0x02)
 
-            #numeros des pins utiles
-            SPICLK = 23
-            SPIMISO = 21
-            SPIMOSI = 19
-            SPICS = 24
-            # definition de l'interface SPI
-            GPIO.setup(SPIMOSI, GPIO.OUT)
-            GPIO.setup(SPIMISO, GPIO.IN)
-            GPIO.setup(SPICLK, GPIO.OUT)
-            GPIO.setup(SPICS, GPIO.OUT)
-            #definition du ADC utilise (broche du MCP3008). Cette valeur peut aller de 0 a 7.
-            adcnum = 0
-            # Lecture de la valeur brute du capteur
-            read_adc0 = readadc(adcnum, SPICLK, SPIMOSI, SPIMISO, SPICS)
-            # conversion de la valeur brute lue en milivolts = ADC * ( 3300 / 1024 )
-            millivolts = read_adc0 * ( 3300.0 / 1024.0)
-            print("La tension en millivots est :"+ str(millivolts))
-            return read_adc0
+            time.sleep(0.5)
+
+            # Read data back from 0x0C(12) with command register, 0x80(128), 2 bytes
+            # ch0 LSB, ch0 MSB
+            data = bus.read_i2c_block_data(0x39, 0x0C | 0x80, 2)
+
+            # Read data back from 0x0E(14) with command register, 0x80(128), 2 bytes
+            # ch1 LSB, ch1 MSB
+            data1 = bus.read_i2c_block_data(0x39, 0x0E | 0x80, 2)
+
+            # Convert the data
+            ch0 = data[1] * 256 + data[0]
+            ch1 = data1[1] * 256 + data1[0]
+
+            return (ch0 - ch1)
 
     
