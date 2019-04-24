@@ -100,7 +100,6 @@ def instruction_received(id,value):
 def send_data(type,room,id,value):
     """Envoie les donnees sur le cloud Heroku"""
     socketIO.emit('data_to_terminal',type, room, id, value)
-
 def write(getOrSet):
     with open(getOrSet+'.csv','wb') as f:
         writer = csv.writer(f,delimiter=',') #quotechar='"', quoting=csv.QUOTE_MINIMAL
@@ -117,10 +116,9 @@ def read(getOrSet):
             type = row[0]
             room = row[1]
             id = int(row[2])
-            value = int(row[3])
-            if(getOrSet == 'get'):
-                send_data(type,room,id,value)
-            else:
+            value = float(row[3])
+            send_data(type,room,id,value)
+            if(getOrSet == 'set'):
                 if(type == "led" or type == "servo"):
                     launch_instruction(id,value)
         csv_file.close()
@@ -164,6 +162,8 @@ def main():
     socketIO.on('disconnect', on_disconnect)
 
     socketIO.on('instruction_to_rpi', instruction_received)
+    
+    socketIO.on('launch_app', read)
     
     print("Listening...")
     
