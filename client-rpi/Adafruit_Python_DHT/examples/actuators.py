@@ -21,8 +21,8 @@ class Led(Actuator):
 
     def instruction(self, value):
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(self.pin,GPIO.OUT)
-        GPIO.output(self.pin,int(value))
+        GPIO.setup(self.pin, GPIO.OUT)
+        GPIO.output(self.pin, int(value))
         print(int(value))
 
 
@@ -35,23 +35,28 @@ class Servomotor(Actuator):
     def instruction(self, value):
         duty = value / 18 + 2
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(self.pin,GPIO.OUT)
-        pwm = GPIO.PWM(self.pin,50)
-        position = self.start
-        pwm.start(self.start) 
-        if position <value:
-                while position < value:  
+        GPIO.setup(self.pin, GPIO.OUT)
+        pwm = GPIO.PWM(self.pin, 50)
+        angle_start = calculateAngle(self.start)
+        angle_end = calculateAngle(value)
+        pwm.start(self.start)
+        if angle_start < angle_end:
+                while angle_start < angle_end:
                         pwm.ChangeDutyCycle(float(position))
-                        position = position + 0.1
+                        angle_start = angle_start + 0.1
                         time.sleep(0.1)
-             
-        else: 
-                while position > value:  
+
+        else:
+                while angle_start > angle_end:
                         pwm.ChangeDutyCycle(float(position))
-                        position = position - 0.1
+                        angle_start = angle_start - 0.1
                         time.sleep(0.1)
-                
+
         self.start = value
         pwm.stop()
         print(value)
         print("done")
+
+    def calculateAngle(value)
+    {
+        return round((2 + (10 / 180) * value, 2);}
