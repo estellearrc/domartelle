@@ -167,7 +167,7 @@ def main():
     
     print("Listening...")
     
-    retrieve_data(5)
+    retrieve_data(10)
     print("Listening...")
 
     # Keeps the socket open indefinitely...

@@ -3,7 +3,7 @@ led,kitchen,2,0
 led,entrance,3,0
 servo,entrance,4,0
 servo,living room,5,0
-temperature,living room,1,15
-humidity,bathroom,2,76
-luminosity,bedroom,3,22
-motion,study,4,1
+temperature,living room,1,25.0
+humidity,bathroom,2,34.0
+luminosity,bedroom,3,105
+motion,study,4,0
