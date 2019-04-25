@@ -24,20 +24,17 @@ export default class MainView extends React.Component {
     socket.on("data_to_terminal", this.initializeApp);
   }
 
+  //A chaque lancement de l'application, des données seront reçues. Cette fonction fait correspondres les actionneurs aux states correspondant en transformant leur valeur si nécessaire
   initializeApp = (type, room, id, value) => {
-    console.log("Coucou Z");
     var copieTemporaireActionneurs = this.state.actionneurs;
     console.log("id : " + id);
     console.log("length tab : " + this.state.actionneurs.length);
     if (type === "led" || type === "servo") {
-      console.log("INNNNNN");
       if (value === 1 && type == "led") {
         copieTemporaireActionneurs[id - 1] = true;
-        console.log("true");
       } else {
         if (value === 0 && type === "led") {
           copieTemporaireActionneurs[id - 1] = false;
-          console.log("false");
         } else {
           if (id === 4) {
             console.log("value door : " + value);
@@ -50,11 +47,8 @@ export default class MainView extends React.Component {
             copieTemporaireActionneurs[id - 1] = value;
           }
         }
-
-        console.log(value);
       }
 
-      console.log("salut : " + this.state.actionneurs);
       this.setState({
         actionneurs: copieTemporaireActionneurs
       });
@@ -82,38 +76,31 @@ export default class MainView extends React.Component {
   changStateActionneur(copieActionneurs) {
     this.setState({ actionneurs: copieActionneurs });
   }
-
+  //Envoie instruction pour la porte
   sendInstructionDoor(id, copieActionneurs) {
     this.changStateActionneur(copieActionneurs);
     console.log("Sending...");
     if (this.state.actionneurs[id - 1] === true) {
-      socket.emit("instruction_to_rpi", id, 90);
-      console.log(id);
-      console.log("OPENED");
+      socket.emit("instruction_to_rpi", id, 90); //Si la porte est ouverte on fait pivoter le servomoteur de 90°
     } else {
-      socket.emit("instruction_to_rpi", id, 0);
-      console.log(id);
-      console.log("CLOSED");
+      socket.emit("instruction_to_rpi", id, 0); //Si la porte est fermée on fait revenir le servomoteur à 0°
     }
     console.log("Didn't crash");
   }
-
+  //Envoie l'angle d'ouverture pour le volet
   sendInstructionCurtains(id, copieActionneurs) {
     this.changStateActionneur(copieActionneurs);
     socket.emit("instruction_to_rpi", id, this.state.actionneurs[id - 1]);
   }
 
+  //Envoie l'instruction pour les lumières
   sendInstructionLights(id, copieActionneurs) {
     this.changStateActionneur(copieActionneurs);
     console.log("Sending...");
     if (this.state.actionneurs[id - 1] === false) {
       socket.emit("instruction_to_rpi", id, 0);
-      console.log(id);
-      console.log("OFF");
     } else {
       socket.emit("instruction_to_rpi", id, 1);
-      console.log(id);
-      console.log("ON");
     }
 
     console.log("Didn't crash");
@@ -121,9 +108,6 @@ export default class MainView extends React.Component {
 
   render() {
     var copieActionneurs = this.state.actionneurs;
-
-    console.log("start" + copieActionneurs[0]);
-    console.log("door : " + copieActionneurs[3]);
     return (
       <View style={{ flexDirection: "column", flex: 1 }}>
         <Header title="LECO" />
@@ -140,7 +124,6 @@ export default class MainView extends React.Component {
                 value={copieActionneurs[0]}
                 onValueChange={value => {
                   copieActionneurs[0] = value;
-                  console.log("coucou : " + copieActionneurs[0]);
                   this.sendInstructionLights(1, copieActionneurs);
                 }}
               />
@@ -156,7 +139,6 @@ export default class MainView extends React.Component {
                 value={copieActionneurs[1]}
                 onValueChange={value => {
                   copieActionneurs[1] = value;
-                  console.log("coucou : " + copieActionneurs[1]);
                   this.sendInstructionLights(2, copieActionneurs);
                 }}
               />
@@ -171,7 +153,6 @@ export default class MainView extends React.Component {
                 value={copieActionneurs[2]}
                 onValueChange={value => {
                   copieActionneurs[2] = value;
-                  console.log("coucou : " + copieActionneurs[2]);
                   this.sendInstructionLights(3, copieActionneurs);
                 }}
               />
