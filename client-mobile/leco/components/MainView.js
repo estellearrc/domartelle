@@ -1,15 +1,6 @@
 import React from "react";
 import SocketIOClient from "socket.io-client";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Switch,
-  Slider,
-  Image,
-  Button,
-  TouchableOpacity
-} from "react-native";
+import { StyleSheet, Text, View, Switch, Slider, Image } from "react-native";
 import Header from "./Header";
 
 //To dismiss the Websocket connection warning, apparently useless (cf. https://stackoverflow.com/questions/53638667/unrecognized-websocket-connection-options-agent-permessagedeflate-pfx)
@@ -56,10 +47,7 @@ export default class MainView extends React.Component {
               copieTemporaireActionneurs[id - 1] = false;
             }
           } else {
-            copieTemporaireActionneurs[
-              id - 1
-            ] = value; /* Math.round(
-              (value - 2) / (10 / 180) */
+            copieTemporaireActionneurs[id - 1] = value;
           }
         }
 
@@ -75,7 +63,6 @@ export default class MainView extends React.Component {
 
   displayDoorImage(actionneur) {
     var sourceImage = require("../images/closed.png");
-    /* console.log(message.membersWhoLiked); */
 
     if (actionneur === true) {
       sourceImage = require("../images/open.png");
@@ -85,7 +72,6 @@ export default class MainView extends React.Component {
 
   displayLightImage(actionneur) {
     var sourceImage = require("../images/lightbulbOff.png");
-    /* console.log(message.membersWhoLiked); */
 
     if (actionneur === true) {
       sourceImage = require("../images/lightbulbOn.png");
@@ -113,7 +99,6 @@ export default class MainView extends React.Component {
   }
 
   sendInstructionCurtains(id, copieActionneurs) {
-    /* const value = (2 + (10 / 180) * copieActionneurs[id - 1]).toFixed(2); */
     this.changStateActionneur(copieActionneurs);
     socket.emit("instruction_to_rpi", id, this.state.actionneurs[id - 1]);
   }
@@ -142,10 +127,7 @@ export default class MainView extends React.Component {
     return (
       <View style={{ flexDirection: "column", flex: 1 }}>
         <Header title="LECO" />
-        <View
-          /* source={require("../images/fond.jpg")} */
-          style={styles.viewBackGround}
-        >
+        <View style={styles.viewBackGround}>
           <View style={styles.container}>
             <View style={styles.switchContainer}>
               <View style={styles.lightbulb}>
@@ -203,7 +185,7 @@ export default class MainView extends React.Component {
                   alignItems: "center"
                 }}
               >
-                <Text style={styles.titleDoor}> Porte d'entrée </Text>
+                <Text style={styles.titleServo}> Porte d'entrée </Text>
                 <Switch
                   style={styles.switchDoor}
                   value={copieActionneurs[3]}
@@ -231,7 +213,7 @@ export default class MainView extends React.Component {
                   alignItems: "center"
                 }}
               >
-                <Text style={styles.titleDoor}> Volet séjour </Text>
+                <Text style={styles.titleServo}> Volet séjour </Text>
               </View>
               <View style={styles.jauge}>
                 <View
@@ -334,7 +316,8 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginTop: 50
   },
-  titleDoor: {
+  titleServo: {
+    marginTop: 5,
     fontSize: 25,
     color: "gray"
   },
