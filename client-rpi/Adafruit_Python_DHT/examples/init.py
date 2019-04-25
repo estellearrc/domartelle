@@ -89,7 +89,6 @@ def JSONToObj():
         f.close()
   
 def instruction_received(id,value):
-    print("coucou Z")
     actuators[id-1].value = value
     write("set")
     read("set")
@@ -167,8 +166,11 @@ def main():
     
     print("Listening...")
     
+
     retrieve_data(10)
-    print("Listening...")
+
+    print("Listening...") #Quand les quatre "Listening" apparaissent, la Raspberry est prête à recevoir les instructions 
+
 
     # Keeps the socket open indefinitely...
     socketIO.wait()
