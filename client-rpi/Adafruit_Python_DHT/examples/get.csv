@@ -4,6 +4,6 @@ led,entrance,3,1
 servo,entrance,4,0
 servo,living room,5,0
 temperature,living room,1,25.0
-humidity,bathroom,2,34.0
-luminosity,bedroom,3,105
+humidity,bathroom,2,32.0
+luminosity,bedroom,3,239
 motion,study,4,0
