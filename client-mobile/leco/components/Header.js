@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: colors.titleText,
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 25,
     fontWeight: "bold"
   }
 });

@@ -74,13 +74,23 @@ export default class MainView extends React.Component {
   };
 
   displayDoorImage(actionneur) {
-    var sourceImage = require("../images/closed-door.png");
+    var sourceImage = require("../images/closed.png");
     /* console.log(message.membersWhoLiked); */
 
     if (actionneur === true) {
-      sourceImage = require("../images/open-door.png");
+      sourceImage = require("../images/open.png");
     }
     return <Image style={styles.doorImage} source={sourceImage} />;
+  }
+
+  displayLightImage(actionneur) {
+    var sourceImage = require("../images/lightbulbOff.png");
+    /* console.log(message.membersWhoLiked); */
+
+    if (actionneur === true) {
+      sourceImage = require("../images/lightbulbOn.png");
+    }
+    return <Image style={styles.lightImage} source={sourceImage} />;
   }
 
   changStateActionneur(copieActionneurs) {
@@ -133,11 +143,15 @@ export default class MainView extends React.Component {
       <View style={{ flexDirection: "column", flex: 1 }}>
         <Header title="LECO" />
         <View
-          source={require("../images/fond.jpg")}
+          /* source={require("../images/fond.jpg")} */
           style={styles.viewBackGround}
         >
           <View style={styles.container}>
             <View style={styles.switchContainer}>
+              <View style={styles.lightbulb}>
+                {this.displayLightImage(copieActionneurs[0])}
+              </View>
+
               <Text style={styles.title}>Lumière séjour</Text>
               <Switch
                 style={styles.switch}
@@ -151,6 +165,9 @@ export default class MainView extends React.Component {
             </View>
 
             <View style={styles.switchContainer}>
+              <View style={styles.lightbulb}>
+                {this.displayLightImage(copieActionneurs[1])}
+              </View>
               <Text style={styles.title}>Lumière cuisine</Text>
               <Switch
                 style={styles.switch}
@@ -163,6 +180,9 @@ export default class MainView extends React.Component {
               />
             </View>
             <View style={styles.switchContainer}>
+              <View style={styles.lightbulb}>
+                {this.displayLightImage(copieActionneurs[2])}
+              </View>
               <Text style={styles.title}>Lumière entrée</Text>
               <Switch
                 style={styles.switch}
@@ -176,52 +196,81 @@ export default class MainView extends React.Component {
             </View>
           </View>
           <View style={{ flex: 1, flexDirection: "row" }}>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                borderWidth: 0.5,
-                borderColor: "gray"
-              }}
-            >
-              <TouchableOpacity
-                style={styles.door}
-                onPress={() => {
-                  copieActionneurs[3] = !copieActionneurs[3];
-                  console.log("porte : " + copieActionneurs[3]);
-                  this.sendInstructionDoor(4, copieActionneurs);
-                }}
-              >
-                {this.displayDoorImage(copieActionneurs[3])}
-              </TouchableOpacity>
-            </View>
-            <View style={styles.containerJauge}>
+            <View style={styles.containerDoor}>
               <View
                 style={{
-                  flex: 4,
-                  transform: [{ rotateZ: "-90deg" }]
+                  flex: 1,
+                  alignItems: "center"
                 }}
               >
-                <Slider
-                  style={{ marginTop: 90 }}
-                  value={copieActionneurs[4]}
-                  maximumValue={180}
-                  step={10}
-                  onValueChange={value => {
-                    copieActionneurs[4] = value;
-                    console.log(copieActionneurs[4]);
-                    this.sendInstructionCurtains(5, copieActionneurs);
+                <Text style={styles.titleDoor}> Porte d'entrée </Text>
+                <Switch
+                  style={styles.switchDoor}
+                  value={copieActionneurs[3]}
+                  onValueChange={() => {
+                    copieActionneurs[3] = !copieActionneurs[3];
+                    console.log("porte : " + copieActionneurs[3]);
+                    this.sendInstructionDoor(4, copieActionneurs);
                   }}
                 />
               </View>
               <View
                 style={{
                   flex: 1,
-                  alignSelf: "center",
-                  marginTop: 20
+                  justifyContent: "center",
+                  marginBottom: 100
                 }}
               >
-                <Text> {`${copieActionneurs[4]}°`}</Text>
+                {this.displayDoorImage(copieActionneurs[3])}
+              </View>
+            </View>
+            <View style={styles.containerJauge}>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center"
+                }}
+              >
+                <Text style={styles.titleDoor}> Volet séjour </Text>
+              </View>
+              <View style={styles.jauge}>
+                <View
+                  style={{
+                    flex: 2
+                  }}
+                >
+                  <Slider
+                    width={190}
+                    style={{
+                      transform: [{ rotateZ: "-90deg" }],
+                      marginTop: 90,
+                      alignSelf: "center"
+                    }}
+                    value={copieActionneurs[4]}
+                    maximumValue={180}
+                    step={10}
+                    onValueChange={value => {
+                      copieActionneurs[4] = value;
+                      console.log(copieActionneurs[4]);
+                      this.sendInstructionCurtains(5, copieActionneurs);
+                    }}
+                  />
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "center"
+                  }}
+                >
+                  <Text
+                    style={{
+                      alignSelf: "flex-start"
+                    }}
+                  >
+                    {" "}
+                    {`${copieActionneurs[4]}°`}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
@@ -240,12 +289,16 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 80,
     height: 50,
-    marginBottom: 20,
+    marginBottom: 15,
     alignSelf: "flex-end"
   },
   containerJauge: {
     flex: 1,
     flexDirection: "column"
+  },
+  jauge: {
+    flex: 5,
+    flexDirection: "row"
   },
   viewBackGround: {
     flex: 1
@@ -260,16 +313,38 @@ const styles = StyleSheet.create({
     flex: 3,
     fontSize: 25,
     color: "gray",
-    marginTop: 30,
+    marginTop: 35,
     marginLeft: 5
   },
-  door: {
-    flex: 1
+  containerDoor: {
+    flex: 1,
+    flexDirection: "column",
+    borderWidth: 0.5,
+    borderColor: "gray"
+  },
+  switchDoor: {
+    flex: 1,
+    transform: [{ scaleX: 1.2 }, { scaleY: 1.0 }],
+    alignSelf: "center",
+    marginTop: 10
   },
   doorImage: {
-    width: 90,
-    height: 120,
+    width: 140,
+    height: 140,
     marginLeft: 20,
     marginTop: 50
+  },
+  titleDoor: {
+    fontSize: 25,
+    color: "gray"
+  },
+  lightImage: {
+    width: 50,
+    height: 50
+  },
+  lightbulb: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
