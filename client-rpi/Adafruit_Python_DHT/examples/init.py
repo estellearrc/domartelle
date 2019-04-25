@@ -169,7 +169,7 @@ def main():
 
     retrieve_data(10)
 
-    print("Listening...") #Quand les quatre "Listening" apparaissent, la Raspberry est prête à recevoir les instructions 
+    print("Listening...") #Quand les quatre "Listening" apparaissent, la Raspberry est prete a recevoir les instructions 
 
 
     # Keeps the socket open indefinitely...

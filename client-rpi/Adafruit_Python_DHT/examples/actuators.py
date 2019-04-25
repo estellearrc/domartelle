@@ -19,7 +19,7 @@ class Led(Actuator):
         Actuator.__init__(self, pin, room, value)
         self.type = "led"
 
-        # Cette fonction envoie l'ordre à la led de s'allumer ou s'éteindre
+        # Cette fonction envoie l'ordre a la led de s'allumer ou s'eteindre
     def instruction(self, value):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.pin, GPIO.OUT)
@@ -33,7 +33,7 @@ class Servomotor(Actuator):
         self.type = "servo"
         self.start = 0
 
-        # Cette fonction traduit les angles en degré pour donner une position au servomoteur
+        # Cette fonction traduit les angles en degre pour donner une position au servomoteur
     def calculateAngle(self, n):
         result = float(((10 * n) / 180) + 2)
         return round(result, 2)
