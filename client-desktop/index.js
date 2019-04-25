@@ -48,7 +48,7 @@ function read(type, n) {
   var currentData = 0;
   //var d3 = require("d3");
   const path = "./logs/" + type + "_log.csv";
-  return d3.csv(path).then(function(data) {
+  d3.csv(path).then(function(data) {
     data.forEach(row => {
       currentData = row.value;
       date = Number(row.timestamp);
