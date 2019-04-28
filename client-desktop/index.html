@@ -22,17 +22,25 @@
         style="
       font-family: Verdana, Geneva, Tahoma, sans-serif;
       font-weight: normal"
-        >Number of days to display:</label
+        >Period to display:</label
       >
       <div class="col-sm-1">
         <input
-          type="number"
-          id="nbDaysTemp"
-          min="1"
-          step="1"
-          value="1"
-          style="width: 35pt; height: 15pt"
-          oninput="submitInput('nbDaysTemp','temperature')"
+          type="date"
+          id="beginDateTemp"
+          value="displayTodayDate()"
+          oninput="submitInput('beginDateTemp','temperature')"
+        />
+      </div>
+      <label>
+        to
+      </label>
+      <div class="col-sm-1">
+        <input
+          type="date"
+          id="endDateTemp"
+          value="displayTodayDate()"
+          oninput="submitInput('endDateTemp','temperature')"
         />
       </div>
       <canvas id="temperature"></canvas>

@@ -32,15 +32,46 @@ function displayTime(timeData) {
     }
     if (time - timeData >= 86400) {
       //si c'est plus long qu'un jour
-      time = date + " " + month + " " + hour + ":" + min + ":" + sec;
+      time =
+        date +
+        " " +
+        month +
+        " " +
+        zeroPadding(hour.toString()) +
+        ":" +
+        zeroPadding(min.toString()) +
+        ":" +
+        zeroPadding(sec.toString());
     } else {
-      time = hour + ":" + min + ":" + sec;
+      time =
+        zeroPadding(hour.toString()) +
+        ":" +
+        zeroPadding(min.toString()) +
+        ":" +
+        zeroPadding(sec.toString());
     }
   }
   return time;
 }
 
-function read(type, n) {
+function displayTodayDate() {
+  var time = Math.floor(Date.now() / 1000);
+  var year = time.getFullYear();
+  var month = zeroPadding((time.getMonth() + 1).toString());
+  var date = zeroPadding(time.getDate().toString());
+  console.log(year + "-" + month + "-" + date);
+  return year + "-" + month + "-" + date;
+}
+
+function zeroPadding(str) {
+  if (str.length < 2) {
+    return "0" + str;
+  } else {
+    return str;
+  }
+}
+
+function read(type, beginTimestamp, endTimestamp) {
   const numberOfSeconds = n * 24 * 3600;
   var datasets = [];
   var rooms = [];
@@ -68,7 +99,8 @@ function read(type, n) {
         });
       }
 
-      if (Math.floor(Date.now() / 1000) - numberOfSeconds <= date) {
+      if (beginTimestamp <= date <= endTimestamp) {
+        //Math.floor(Date.now() / 1000) - numberOfSeconds
         rightDataset = datasets.find(d => d.label === room);
         rightDataset.data.push({ x: displayTime(date), y: Number(row.value) });
         moments.push(displayTime(date));
@@ -167,10 +199,20 @@ function get_chart_options(type, room) {
 
 function submitInput(id, type) {
   document.getElementById(id).addEventListener("input", e => {
-    const nbDays = e.target.value;
-    if (nbDays > 0) {
-      read(type, nbDays);
+    const date = e.target.value;
+    console.log(typeof date);
+    var beginDate = displayTodayDate();
+    var endDate = displayTodayDate();
+    if (id[0] === "b") {
+      //s'il s'agit d'une date de début de période
+      beginDate = date;
+    } else {
+      //s'il s'agit d'une date de fin de période
+      endDate = date;
     }
+    beginTimestamp = Math.floor(beginDate.getTime() / 1000);
+    endTimestamp = Math.floor(endDate.getTime() / 1000);
+    read(type, beginTimestamp, endTimestamp);
   });
 }
 
