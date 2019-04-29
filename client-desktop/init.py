@@ -31,7 +31,7 @@ def display_data(type,room,id,value):
     if type == "temperature":
         print("The temperature in the "+ room +" is "+ str(value) +" Celsius degrees")
     elif type == "luminosity":
-        print("The luminosity in the "+ room +" is "+ str(value) +" %")
+        print("The luminosity in the "+ room +" is "+ str(value) +" lux")
     elif type == "motion":
         if value == 1:
             print("Someone is in the "+ room +"...")
