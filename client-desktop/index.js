@@ -126,7 +126,7 @@ function display_data_n_days(tuple, type) {
     }
   };
   new Chart(myContext, myChartConfig);
-  if (type === "motion") {
+  if (type === "motion" || type === "led") {
     if (currentData === "1") {
       currentData = "true";
     } else {
@@ -183,19 +183,51 @@ function get_chart_options(type, room) {
         };
         return options;
       } else {
-        [r, g, b] = suffleColor();
-        options = {
-          idChart: type,
-          idCurrentData: "currentMo",
-          steppedLine: true,
-          chartType: "line",
-          backgroundColor: "rgba(" + r + "," + g + "," + b + ",0.2)", //"rgba(255, 215, 0, 0.2)",
-          borderColor: "rgba(" + r + "," + g + "," + b + ",1)", //"rgba(255, 215, 0, 1)",
-          label: room,
-          beginHeader: "Motion: ",
-          endHeader: ""
-        };
-        return options;
+        if (type === "motion") {
+          [r, g, b] = suffleColor();
+          options = {
+            idChart: type,
+            idCurrentData: "currentMo",
+            steppedLine: true,
+            chartType: "line",
+            backgroundColor: "rgba(" + r + "," + g + "," + b + ",0.2)", //"rgba(255, 215, 0, 0.2)",
+            borderColor: "rgba(" + r + "," + g + "," + b + ",1)", //"rgba(255, 215, 0, 1)",
+            label: room,
+            beginHeader: "Motion: ",
+            endHeader: ""
+          };
+          return options;
+        } else {
+          if (type === "led") {
+            [r, g, b] = suffleColor();
+            options = {
+              idChart: type,
+              idCurrentData: "currentLed",
+              steppedLine: true,
+              chartType: "line",
+              backgroundColor: "rgba(" + r + "," + g + "," + b + ",0.2)", //"rgba(255, 215, 0, 0.2)",
+              borderColor: "rgba(" + r + "," + g + "," + b + ",1)", //"rgba(255, 215, 0, 1)",
+              label: room,
+              beginHeader: "Light: ",
+              endHeader: ""
+            };
+            return options;
+          } else {
+            [r, g, b] = suffleColor();
+            options = {
+              idChart: type,
+              idCurrentData: "currentServo",
+              steppedLine: false,
+              chartType: "line",
+              backgroundColor: "rgba(" + r + "," + g + "," + b + ",0.2)", //"rgba(255, 215, 0, 0.2)",
+              borderColor: "rgba(" + r + "," + g + "," + b + ",1)", //"rgba(255, 215, 0, 1)",
+              label: room,
+              beginHeader: "Open door or window: ",
+              endHeader: ""
+            };
+            return options;
+          }
+        }
       }
     }
   }

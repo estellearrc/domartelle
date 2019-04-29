@@ -145,5 +145,69 @@
         read("motion", 1);
       </script>
     </div>
+    <div class="well" style="float: left;">
+      <h3 id="currentLed"></h3>
+      <div class="form-group">
+        <label
+          class="control-label col-sm-4"
+          style="
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+          font-weight: normal"
+          >Period to display:</label
+        >
+        <input
+          type="date"
+          class="form-control"
+          style="width:115pt; height:15pt"
+          id="beginDateLed"
+        />
+        <label class="control-label col-sm-1" style="margin:0px">
+          to
+        </label>
+        <input
+          type="date"
+          class="form-control"
+          style="width:115pt; height:15pt"
+          id="endDateLed"
+          onchange="submitInput('DateLed','led')"
+        />
+      </div>
+      <canvas id="led"></canvas>
+      <script>
+        read("led", 1);
+      </script>
+    </div>
+    <div class="well" style="float: right">
+      <h3 id="currentServo"></h3>
+      <div class="form-group">
+        <label
+          class="control-label col-sm-4"
+          style="
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+          font-weight: normal"
+          >Period to display:</label
+        >
+        <input
+          type="date"
+          class="form-control"
+          style="width:115pt; height:15pt"
+          id="beginDateServo"
+        />
+        <label class="control-label col-sm-1" style="margin:0px">
+          to
+        </label>
+        <input
+          type="date"
+          class="form-control"
+          style="width:115pt; height:15pt"
+          id="endDateServo"
+          onchange="submitInput('DateServo','servo')"
+        />
+      </div>
+      <canvas id="servo"></canvas>
+      <script>
+        read("servo", 1);
+      </script>
+    </div>
   </body>
 </html>
