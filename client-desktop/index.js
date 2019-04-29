@@ -222,7 +222,7 @@ function get_chart_options(type, room) {
               backgroundColor: "rgba(" + r + "," + g + "," + b + ",0.2)", //"rgba(255, 215, 0, 0.2)",
               borderColor: "rgba(" + r + "," + g + "," + b + ",1)", //"rgba(255, 215, 0, 1)",
               label: room,
-              beginHeader: "Open door or window: ",
+              beginHeader: "Opening angle of the window: ",
               endHeader: ""
             };
             return options;
