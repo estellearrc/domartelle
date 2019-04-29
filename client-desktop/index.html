@@ -17,30 +17,31 @@
     <h1>LECO sensors</h1>
     <div class="well" style="float: left">
       <h3 id="currentTemp"></h3>
-      <label
-        class="col-sm-7 control-label"
-        style="
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-weight: normal"
-        >Period to display:</label
-      >
-      <div class="col-sm-1">
+
+      <div class="form-group">
+        <label
+          class="control-label col-sm-4"
+          style="
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: normal"
+          >Period to display:</label
+        >
         <input
           type="date"
+          class="form-control"
+          style="width:115pt; height:15pt"
           id="beginDateTemp"
-          value="displayTodayDate()"
-          oninput="submitInput('beginDateTemp','temperature')"
+          onchange="submitInput('beginDateTemp','temperature')"
         />
-      </div>
-      <label>
-        to
-      </label>
-      <div class="col-sm-1">
+        <label class="control-label col-sm-1" style="margin:0px">
+          to
+        </label>
         <input
           type="date"
+          class="form-control"
+          style="width:115pt; height:15pt"
           id="endDateTemp"
-          value="displayTodayDate()"
-          oninput="submitInput('endDateTemp','temperature')"
+          onchange="submitInput('endDateTemp','temperature')"
         />
       </div>
       <canvas id="temperature"></canvas>
@@ -50,22 +51,31 @@
     </div>
     <div class="well" style="float: right">
       <h3 id="currentHum"></h3>
-      <label
-        class="col-sm-7 control-label"
-        style="
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-weight: normal"
-        >Number of days to display:</label
-      >
-      <div class="col-sm-1">
+
+      <div class="form-group">
+        <label
+          class="control-label col-sm-4"
+          style="
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: normal"
+          >Period to display:</label
+        >
         <input
-          type="number"
-          id="nbDaysHum"
-          min="1"
-          step="1"
-          value="1"
-          style="width: 35pt; height: 15pt"
-          oninput="submitInput('nbDaysHum','humidity')"
+          type="date"
+          class="form-control"
+          style="width:115pt; height:15pt"
+          id="beginDateHum"
+          onchange="submitInput('beginDateHum','humidity')"
+        />
+        <label class="control-label col-sm-1" style="margin:0px">
+          to
+        </label>
+        <input
+          type="date"
+          class="form-control"
+          style="width:115pt; height:15pt"
+          id="endDateHum"
+          onchange="submitInput('endDateHum','humidity')"
         />
       </div>
       <canvas id="humidity"></canvas>
@@ -75,22 +85,30 @@
     </div>
     <div class="well" style="float: left">
       <h3 id="currentLum"></h3>
-      <label
-        class="col-sm-7 control-label"
-        style="
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-weight: normal"
-        >Number of days to display:</label
-      >
-      <div class="col-sm-1">
+      <div class="form-group">
+        <label
+          class="control-label col-sm-4"
+          style="
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+          font-weight: normal"
+          >Period to display:</label
+        >
         <input
-          type="number"
-          id="nbDaysLum"
-          min="1"
-          step="1"
-          value="1"
-          style="width: 35pt; height: 15pt"
-          oninput="submitInput('nbDaysLum','luminosity')"
+          type="date"
+          class="form-control"
+          style="width:115pt; height:15pt"
+          id="beginDateLum"
+          onchange="submitInput('beginDateLum','luminosity')"
+        />
+        <label class="control-label col-sm-1" style="margin:0px">
+          to
+        </label>
+        <input
+          type="date"
+          class="form-control"
+          style="width:115pt; height:15pt"
+          id="endDateLum"
+          onchange="submitInput('endDateLum','luminosity')"
         />
       </div>
       <canvas id="luminosity"></canvas>
@@ -100,22 +118,30 @@
     </div>
     <div class="well" style="float: right">
       <h3 id="currentMo"></h3>
-      <label
-        class="col-sm-7 control-label"
-        style="
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      font-weight: normal"
-        >Number of days to display:</label
-      >
-      <div class="col-sm-1">
+      <div class="form-group">
+        <label
+          class="control-label col-sm-4"
+          style="
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+          font-weight: normal"
+          >Period to display:</label
+        >
         <input
-          type="number"
-          id="nbDaysMo"
-          min="1"
-          step="1"
-          value="1"
-          style="width: 35pt; height: 15pt"
-          oninput="submitInput('nbDaysMo','motion')"
+          type="date"
+          class="form-control"
+          style="width:115pt; height:15pt"
+          id="beginDateMo"
+          onchange="submitInput('beginDateMo','motion')"
+        />
+        <label class="control-label col-sm-1" style="margin:0px">
+          to
+        </label>
+        <input
+          type="date"
+          class="form-control"
+          style="width:115pt; height:15pt"
+          id="endDateMo"
+          onchange="submitInput('endDateMo','motion')"
         />
       </div>
       <canvas id="motion"></canvas>

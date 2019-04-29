@@ -55,10 +55,11 @@ function displayTime(timeData) {
 }
 
 function displayTodayDate() {
-  var time = Math.floor(Date.now() / 1000);
-  var year = time.getFullYear();
-  var month = zeroPadding((time.getMonth() + 1).toString());
-  var date = zeroPadding(time.getDate().toString());
+  var time = Date.now();
+  var d = new Date(time);
+  var year = d.getFullYear();
+  var month = zeroPadding((d.getMonth() + 1).toString());
+  var date = zeroPadding(d.getDate().toString());
   console.log(year + "-" + month + "-" + date);
   return year + "-" + month + "-" + date;
 }
@@ -72,7 +73,7 @@ function zeroPadding(str) {
 }
 
 function read(type, beginTimestamp, endTimestamp) {
-  const numberOfSeconds = n * 24 * 3600;
+  //const numberOfSeconds = n * 24 * 3600;
   var datasets = [];
   var rooms = [];
   var moments = [];
@@ -139,13 +140,14 @@ function display_data_n_days(tuple, type) {
 
 function get_chart_options(type, room) {
   if (type === "temperature") {
+    [r, g, b] = suffleColor();
     options = {
       idChart: type,
       idCurrentData: "currentTemp",
       steppedLine: false,
       chartType: "line",
-      backgroundColor: suffleColor(0.1), //"rgba(0, 0, 255, 0.2)",
-      borderColor: suffleColor(1), //"rgba(0, 0, 255, 1)",
+      backgroundColor: "rgba(" + r + "," + g + "," + b + ",0.2)", //"rgba(0, 0, 255, 0.2)",
+      borderColor: "rgba(" + r + "," + g + "," + b + ",1)", //"rgba(0, 0, 255, 1)",
       label: room,
       beginHeader: "Temperature: ",
       endHeader: " °C"
@@ -153,13 +155,14 @@ function get_chart_options(type, room) {
     return options;
   } else {
     if (type === "luminosity") {
+      [r, g, b] = suffleColor();
       options = {
         idChart: type,
         idCurrentData: "currentLum",
         steppedLine: false,
         chartType: "line",
-        backgroundColor: suffleColor(0.1), //"rgba(127, 191, 63, 0.2)",
-        borderColor: suffleColor(1), //"rgba(127, 191, 63, 1)",
+        backgroundColor: "rgba(" + r + "," + g + "," + b + ",0.2)", //"rgba(127, 191, 63, 0.2)",
+        borderColor: "rgba(" + r + "," + g + "," + b + ",1)", //"rgba(127, 191, 63, 1)",
         label: room,
         beginHeader: "Luminosity: ",
         endHeader: " lux"
@@ -167,26 +170,28 @@ function get_chart_options(type, room) {
       return options;
     } else {
       if (type === "humidity") {
+        [r, g, b] = suffleColor();
         options = {
           idChart: type,
           idCurrentData: "currentHum",
           steppedLine: false,
           chartType: "line",
-          backgroundColor: suffleColor(0.1), //"rgba(127, 63, 191, 0.2)",
-          borderColor: suffleColor(1), //"rgba(127, 63, 191, 1)",
+          backgroundColor: "rgba(" + r + "," + g + "," + b + ",0.2)", //"rgba(127, 63, 191, 0.2)",
+          borderColor: "rgba(" + r + "," + g + "," + b + ",1)", //"rgba(127, 63, 191, 1)",
           label: room,
           beginHeader: "Humidity: ",
           endHeader: " %"
         };
         return options;
       } else {
+        [r, g, b] = suffleColor();
         options = {
           idChart: type,
           idCurrentData: "currentMo",
           steppedLine: true,
           chartType: "line",
-          backgroundColor: suffleColor(0.1), //"rgba(255, 215, 0, 0.2)",
-          borderColor: suffleColor(1), //"rgba(255, 215, 0, 1)",
+          backgroundColor: "rgba(" + r + "," + g + "," + b + ",0.2)", //"rgba(255, 215, 0, 0.2)",
+          borderColor: "rgba(" + r + "," + g + "," + b + ",1)", //"rgba(255, 215, 0, 1)",
           label: room,
           beginHeader: "Motion: ",
           endHeader: ""
@@ -198,29 +203,27 @@ function get_chart_options(type, room) {
 }
 
 function submitInput(id, type) {
-  document.getElementById(id).addEventListener("input", e => {
-    const date = e.target.value;
-    console.log(typeof date);
-    var beginDate = displayTodayDate();
-    var endDate = displayTodayDate();
-    if (id[0] === "b") {
-      //s'il s'agit d'une date de début de période
-      beginDate = date;
-    } else {
-      //s'il s'agit d'une date de fin de période
-      endDate = date;
-    }
-    beginTimestamp = Math.floor(beginDate.getTime() / 1000);
-    endTimestamp = Math.floor(endDate.getTime() / 1000);
-    read(type, beginTimestamp, endTimestamp);
-  });
+  const date = document.getElementById(id).value;
+  var beginDate = new Date(Date.now());
+  var endDate = new Date(Date.now());
+  if (id[0] === "b") {
+    //s'il s'agit d'une date de début de période
+    beginDate = new Date(date);
+    document.getElementById(id).value = displayTodayDate();
+  } else {
+    //s'il s'agit d'une date de fin de période
+    endDate = new Date(date);
+  }
+  beginTimestamp = Math.floor(beginDate.getTime() / 1000);
+  endTimestamp = Math.floor(endDate.getTime() / 1000);
+  read(type, beginTimestamp, endTimestamp);
 }
 
-function suffleColor(a) {
+function suffleColor() {
   r = getRandomInt(255);
   g = getRandomInt(255);
   b = getRandomInt(255);
-  return "rgba(" + r + "," + g + "," + b + "," + a + ")";
+  return [r, g, b];
 }
 
 function getRandomInt(max) {
