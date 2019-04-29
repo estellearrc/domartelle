@@ -99,8 +99,7 @@ function read(type, beginTimestamp, endTimestamp) {
           borderColor: options.borderColor
         });
       }
-
-      if (beginTimestamp <= date <= endTimestamp) {
+      if (beginTimestamp <= date && date <= endTimestamp) {
         //Math.floor(Date.now() / 1000) - numberOfSeconds
         rightDataset = datasets.find(d => d.label === room);
         rightDataset.data.push({ x: displayTime(date), y: Number(row.value) });
@@ -203,16 +202,13 @@ function get_chart_options(type, room) {
 }
 
 function submitInput(id, type) {
-  const date = document.getElementById(id).value;
-  var beginDate = new Date(Date.now());
-  var endDate = new Date(Date.now());
-  if (id[0] === "b") {
-    //s'il s'agit d'une date de début de période
-    beginDate = new Date(date);
-    document.getElementById(id).value = displayTodayDate();
-  } else {
-    //s'il s'agit d'une date de fin de période
-    endDate = new Date(date);
+  var beginDate = new Date(document.getElementById("begin" + id).value);
+  if (!beginDate) {
+    beginDate = new Date(Date.now());
+  }
+  var endDate = new Date(document.getElementById("end" + id).value);
+  if (!beginDate) {
+    beginDate = new Date(Date.now());
   }
   beginTimestamp = Math.floor(beginDate.getTime() / 1000);
   endTimestamp = Math.floor(endDate.getTime() / 1000);
